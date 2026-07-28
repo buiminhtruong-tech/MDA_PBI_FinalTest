@@ -1,0 +1,16 @@
+# Power BI PBIR Visual Rules
+
+Before creating or editing visuals in this repo:
+
+1. Edit active visuals only under `Vending Machine Analysis.Report/definition/pages/<pageFolder>/visuals/<visualName>/visual.json`.
+2. Never create active visuals under `visualContainers`; that is legacy format and can make Power BI show blank pages.
+3. Use Microsoft `visualContainer` schema version `2.x` or newer. Never use legacy `visualContainer/1.x.x`.
+4. Use modern visual types: `cardVisual`, `tableEx`, `lineChart`, `clusteredBarChart`, `clusteredColumnChart`, `donutChart`, `slicer`.
+5. Use `queryState.<Role>.projections`; do not use legacy role arrays.
+6. Ensure `visual.json.name` equals the containing folder name.
+7. Ensure every field/measure referenced by a visual exists in the TMDL semantic model.
+8. Do not combine a category from one fact table with a measure from another unrelated fact table.
+9. Check category cardinality before building breakdown charts; one-value categories should become trend/detail/KPI visuals.
+10. Run `node scripts/validate-pbir-visuals.js` after every visual edit.
+
+See `POWERBI_VISUAL_RULES.md` for the full project rules.
