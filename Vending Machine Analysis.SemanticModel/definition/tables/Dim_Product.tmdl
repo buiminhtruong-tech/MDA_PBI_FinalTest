@@ -1,0 +1,41 @@
+table Dim_Product
+	lineageTag: 6b177ec8-b656-46fc-925f-24b5853d905e
+
+	column ProductId
+		dataType: int64
+		formatString: 0
+		lineageTag: a99a563e-dc90-4a14-8c50-1ec79daca071
+		summarizeBy: count
+		sourceColumn: ProductId
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		lineageTag: 1768a3ff-5dc8-4931-9bdb-1e751ff54b97
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductCategory
+		dataType: string
+		lineageTag: ff1ba6e6-0b6f-41af-91f0-63c78789036e
+		summarizeBy: none
+		sourceColumn: ProductCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Product = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\buimi\OneDrive\Documents\AI_AGENT\ANALYTIC\cleaned_dataset\Cleaned_StarSchema_VendingMachine.xlsx"), null, true),
+				    Dim_Product_Sheet = Source{[Item="Dim_Product",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Dim_Product_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ProductId", Int64.Type}, {"ProductName", type text}, {"ProductCategory", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

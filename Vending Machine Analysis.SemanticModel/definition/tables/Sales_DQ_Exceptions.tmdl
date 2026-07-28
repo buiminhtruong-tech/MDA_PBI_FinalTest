@@ -1,0 +1,97 @@
+table Sales_DQ_Exceptions
+	lineageTag: 39777a65-2d0a-4d53-86be-2156bf382061
+
+	column TransactionId
+		dataType: string
+		lineageTag: fd9c0759-ac33-4cc9-a615-e9c2c7eeaae5
+		summarizeBy: none
+		sourceColumn: TransactionId
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: string
+		lineageTag: 4c980621-73f8-4011-9d25-39af410a657a
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column MachineCode
+		dataType: string
+		lineageTag: 152b2d2b-60ff-4de9-b61e-7317bbc2687c
+		summarizeBy: none
+		sourceColumn: MachineCode
+
+	column TotalPrice
+		dataType: string
+		lineageTag: 717ef2d2-97fc-46ec-b525-b8f0baf54251
+		summarizeBy: none
+		sourceColumn: TotalPrice
+
+		annotation SummarizationSetBy = Automatic
+
+	column TransactionStatus
+		dataType: string
+		lineageTag: 56e29042-527d-48f5-b2d4-104a22fb957f
+		summarizeBy: none
+		sourceColumn: TransactionStatus
+
+	column RefundedAmount
+		dataType: string
+		lineageTag: d3ab6142-2b67-492f-85af-8f66e904f2f6
+		summarizeBy: none
+		sourceColumn: RefundedAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	column TransactionOutcomeGroup
+		dataType: string
+		lineageTag: bc664bd2-2128-4a63-800b-3ac0a4fd9c21
+		summarizeBy: none
+		sourceColumn: TransactionOutcomeGroup
+
+	column Hour
+		dataType: string
+		lineageTag: be3ff2d1-0768-4205-bfdc-ba6a89de4e82
+		summarizeBy: none
+		sourceColumn: Hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefundedQuantity
+		dataType: string
+		lineageTag: b1c7767b-b01a-4595-87bd-6531b96a86b5
+		summarizeBy: none
+		sourceColumn: RefundedQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column MachinePosition
+		dataType: string
+		lineageTag: d6be02a8-5220-43a4-9874-499f0bf9998e
+		summarizeBy: none
+		sourceColumn: MachinePosition
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonth
+		dataType: string
+		lineageTag: a1467bec-06db-44b0-aeca-8ef51c6a4fa3
+		summarizeBy: none
+		sourceColumn: YearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sales_DQ_Exceptions = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\buimi\OneDrive\Documents\AI_AGENT\ANALYTIC\cleaned_dataset\Cleaned_StarSchema_VendingMachine.xlsx"), null, true),
+				    Sheet = Source{[Item="Sales_DQ_Exceptions",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet, [PromoteAllScalars=true])
+				in
+				    #"Promoted Headers"
+
+	annotation PBI_ResultType = Table
+

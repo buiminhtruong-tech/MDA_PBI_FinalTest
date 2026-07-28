@@ -1,0 +1,75 @@
+table Fact_MachineTransfer
+	lineageTag: 25a36650-db1d-4a07-8152-73affef588bb
+
+	column TransferId
+		dataType: int64
+		formatString: 0
+		lineageTag: 97112d37-de6c-42e1-a1c5-d3ef9250d942
+		summarizeBy: count
+		sourceColumn: TransferId
+
+	column TransferCode
+		dataType: string
+		lineageTag: 78887fb3-7218-4710-bced-e5d4bb45a1fe
+		summarizeBy: none
+		sourceColumn: TransferCode
+
+	column TransferDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 7ad8a42c-b5f4-4cb4-b338-6a060e577565
+		summarizeBy: none
+		sourceColumn: TransferDateKey
+
+	column SourceWarehouseId
+		dataType: int64
+		formatString: 0
+		lineageTag: bf1617a4-1494-4ff1-bf2e-266b238954df
+		summarizeBy: none
+		sourceColumn: SourceWarehouseId
+
+	column SourceWarehouseName
+		dataType: string
+		lineageTag: e5eeadc9-02e6-4d86-b1ce-43a765be830b
+		summarizeBy: none
+		sourceColumn: SourceWarehouseName
+
+	column DestRefWarehouseId
+		dataType: int64
+		formatString: 0
+		lineageTag: f6b0cf6d-56ac-4d0e-8466-fec869daee65
+		summarizeBy: none
+		sourceColumn: DestRefWarehouseId
+
+	column DestMachineWarehouseName
+		dataType: string
+		lineageTag: f0b162a3-b52e-426c-8de2-a9df7fdf6733
+		summarizeBy: none
+		sourceColumn: DestMachineWarehouseName
+
+	column TotalAmount
+		dataType: double
+		formatString: #,0 ₫
+		lineageTag: 00d4d017-98af-4200-8101-cdca89bfc1f7
+		summarizeBy: sum
+		sourceColumn: TotalAmount
+
+	column MachineCodeDerived
+		dataType: string
+		lineageTag: 925d6d51-fa02-48cf-a3f6-e9fcf06ec7a2
+		summarizeBy: none
+		sourceColumn: MachineCodeDerived
+
+	partition Fact_MachineTransfer = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\buimi\OneDrive\Documents\AI_AGENT\ANALYTIC\cleaned_dataset\Cleaned_StarSchema_VendingMachine.xlsx"), null, true),
+				    Fact_Sheet = Source{[Item="Fact_MachineTransfer",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Fact_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"TransferId", Int64.Type}, {"TransferCode", type text}, {"TransferDateKey", Int64.Type}, {"SourceWarehouseId", Int64.Type}, {"SourceWarehouseName", type text}, {"DestRefWarehouseId", Int64.Type}, {"DestMachineWarehouseName", type text}, {"MachineCodeDerived", type text}, {"TotalAmount", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

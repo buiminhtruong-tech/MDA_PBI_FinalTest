@@ -1,0 +1,123 @@
+table Dim_Date
+	lineageTag: 8bef7263-5172-4742-ab20-232f88caafa8
+
+	column FullDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 880b0fd4-1819-4300-a65c-8dad23e4ddb4
+		summarizeBy: none
+		sourceColumn: FullDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 82875a52-58ef-4c8b-9eda-628c25e9aa67
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: c92ccfa8-215c-414a-8ab0-e2e834e6282b
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: eeca4253-bb6f-49e1-89ba-0994c59666a1
+		summarizeBy: sum
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: 1be90fa8-dd91-46fe-89e3-f1efc7dc002b
+		summarizeBy: sum
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		lineageTag: 7a58fa69-43ba-4863-92b3-af83eb20a30a
+		summarizeBy: none
+		sourceColumn: MonthName
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekOfYear
+		dataType: int64
+		formatString: 0
+		lineageTag: f7a46f75-7e26-4038-98c0-e38a9960da2b
+		summarizeBy: sum
+		sourceColumn: WeekOfYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeek
+		dataType: int64
+		formatString: 0
+		lineageTag: 9d7d2154-e387-4cf5-adf4-a8403666e125
+		summarizeBy: sum
+		sourceColumn: DayOfWeek
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayName
+		dataType: string
+		lineageTag: 1ae9c69d-d3b1-45d0-912f-a849e80a1f31
+		summarizeBy: none
+		sourceColumn: DayName
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWeekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 01f4a29f-6e29-4891-a0c7-b71822a47443
+		summarizeBy: none
+		sourceColumn: IsWeekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsCovidLockdown
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 7c7064b7-20c9-45f5-9315-9e7af4099227
+		summarizeBy: none
+		sourceColumn: IsCovidLockdown
+
+		annotation SummarizationSetBy = Automatic
+
+	column CovidPeriodStage
+		dataType: string
+		lineageTag: aa4fe31a-f954-4492-a60e-8737b95f27d5
+		summarizeBy: none
+		sourceColumn: CovidPeriodStage
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Date = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\buimi\OneDrive\Documents\AI_AGENT\ANALYTIC\cleaned_dataset\Cleaned_StarSchema_VendingMachine.xlsx"), null, true),
+				    Dim_Date_Sheet = Source{[Item="Dim_Date",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Dim_Date_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"FullDate", type date}, {"DateKey", Int64.Type}, {"Year", Int64.Type}, {"Quarter", Int64.Type}, {"Month", Int64.Type}, {"MonthName", type text}, {"WeekOfYear", Int64.Type}, {"DayOfWeek", Int64.Type}, {"DayName", type text}, {"IsWeekend", type logical}, {"IsCovidLockdown", type logical}, {"CovidPeriodStage", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,85 @@
+table Fact_PurchaseOrder
+	lineageTag: 7a2dcb1f-bdae-42f0-8ef1-5020a0d67680
+
+	column POCode
+		dataType: string
+		lineageTag: a7165ae4-b750-4462-9923-49f5a496a8d6
+		summarizeBy: none
+		sourceColumn: POCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: eaef18fb-b061-4bc6-8b88-67efe7737379
+		summarizeBy: count
+		sourceColumn: OrderDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SupplierId
+		dataType: int64
+		formatString: 0
+		lineageTag: 77883a9d-5580-4b35-b000-281957dd6c6b
+		summarizeBy: count
+		sourceColumn: SupplierId
+
+		annotation SummarizationSetBy = Automatic
+
+	column SupplierName
+		dataType: string
+		lineageTag: da339f34-502d-4bb9-a893-9a9e28ef218a
+		summarizeBy: none
+		sourceColumn: SupplierName
+
+		annotation SummarizationSetBy = Automatic
+
+	column TaxVAT
+		dataType: int64
+		formatString: 0
+		lineageTag: 3d967463-b5be-4ddf-a549-1997cae7146e
+		summarizeBy: sum
+		sourceColumn: TaxVAT
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReceivingAddress
+		dataType: string
+		lineageTag: fcaca7bc-3fe9-4bee-9f8d-243173e808e6
+		summarizeBy: none
+		sourceColumn: ReceivingAddress
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReceivingDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 4a3a6348-ad01-41bc-aff7-b700457acab4
+		summarizeBy: count
+		sourceColumn: ReceivingDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CreatedById
+		dataType: int64
+		formatString: 0
+		lineageTag: 7528cee5-0cfe-415a-a367-0e837181cb7e
+		summarizeBy: count
+		sourceColumn: CreatedById
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Fact_PurchaseOrder = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\buimi\OneDrive\Documents\AI_AGENT\ANALYTIC\cleaned_dataset\Cleaned_StarSchema_VendingMachine.xlsx"), null, true),
+				    Fact_PurchaseOrder_Sheet = Source{[Item="Fact_PurchaseOrder",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Fact_PurchaseOrder_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"POCode", type text}, {"OrderDateKey", Int64.Type}, {"SupplierId", Int64.Type}, {"SupplierName", type text}, {"TaxVAT", Int64.Type}, {"ReceivingAddress", type text}, {"ReceivingDateKey", Int64.Type}, {"CreatedById", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

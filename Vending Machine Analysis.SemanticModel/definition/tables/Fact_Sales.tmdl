@@ -1,0 +1,185 @@
+table Fact_Sales
+	lineageTag: 75e51fcb-c7a6-4c2a-ab60-d9e5dfd3d536
+
+	measure 'Total Sales Rows' = COUNTROWS(Fact_Sales)
+		formatString: #,0
+		lineageTag: 938c9624-2b0e-49fd-aa4a-9efac1e0e1eb
+
+	measure 'Successful Transactions' = CALCULATE([Total Sales Rows], Fact_Sales[TransactionOutcomeGroup] = "Success")
+		formatString: #,0
+		lineageTag: bdff2578-0256-432a-bf1e-4c83dbe1b423
+
+	measure 'Failed Attempts' = CALCULATE([Total Sales Rows], Fact_Sales[TransactionOutcomeGroup] = "Failed_or_Cancelled")
+		formatString: #,0
+		lineageTag: e3f6c2a2-26a9-45e8-95a4-33d42950292d
+
+	measure 'Refund Transactions' = CALCULATE([Total Sales Rows], Fact_Sales[TransactionOutcomeGroup] = "Refunded")
+		formatString: #,0
+		lineageTag: a9e3ec67-d99f-405b-a8ec-2b76b6a055db
+
+	measure 'Overall Success Rate' = DIVIDE([Successful Transactions], [Total Sales Rows], 0)
+		formatString: 0.00%
+		lineageTag: 5a8fb34e-b12b-4e07-a06d-ea4ac616ecc0
+
+	measure 'Success Rate Pre 29/04' = CALCULATE([Overall Success Rate], Dim_Date[FullDate] < DATE(2020,4,29))
+		formatString: 0.00%
+		lineageTag: 4698578d-d5b2-4e51-b067-3ad3a99ccdce
+
+	measure 'Success Rate Post 29/04' = CALCULATE([Overall Success Rate], Dim_Date[FullDate] >= DATE(2020,4,29))
+		formatString: 0.00%
+		lineageTag: 183624a6-f588-4389-984b-28d1485c74cd
+
+	measure 'Successful Sales Value' = CALCULATE(SUM(Fact_Sales[TotalPrice]), Fact_Sales[TransactionOutcomeGroup] = "Success")
+		formatString: #,0 ₫
+		lineageTag: 888435fd-7955-45b9-9430-f1dd28eb6902
+
+	measure 'Value at Risk' = CALCULATE(SUM(Fact_Sales[TotalPrice]), Fact_Sales[TransactionOutcomeGroup] = "Failed_or_Cancelled")
+		formatString: #,0 ₫
+		lineageTag: 3bf9f566-6ac7-40c1-b1aa-bb44b34be41e
+
+	measure 'Total Refund Amount' = SUM(Fact_Sales[RefundedAmount])
+		formatString: #,0 ₫
+		lineageTag: ad13f6d4-3996-495a-8049-76ba32317dbc
+
+	measure 'Verified Refund Amount' = CALCULATE(SUM(Fact_Sales[RefundedAmount]), Fact_Sales[TransactionOutcomeGroup] = "Refunded")
+		formatString: #,0 ₫
+		lineageTag: 40f47bb2-c69e-4cbd-901c-a5c867257846
+
+	measure 'DQ Refund Exceptions' = COUNTROWS(Sales_DQ_Exceptions)
+		formatString: #,0
+		lineageTag: 33422437-e0b6-4587-b68a-1ab74b774bb9
+
+	measure 'Active Machines Count' = CALCULATE(COUNTROWS(Dim_Machine), Dim_Machine[MachineStatus] = "ON")
+		formatString: #,0
+		lineageTag: 3d96036b-ca6c-4508-9b07-838f9c1563ae
+
+	measure 'Active Fleet Rate' = DIVIDE([Active Machines Count], COUNTROWS(Dim_Machine), 0)
+		formatString: 0.00%
+		lineageTag: c19036a7-e72c-459d-a0ad-f4c7d7e1d1f6
+
+	measure 'Total Transfer Value' = SUM(Fact_MachineTransfer[TotalAmount])
+		formatString: #,0 ₫
+		lineageTag: 1acbbad9-c356-4747-bf2f-0ac2a7a5874f
+
+	measure 'Total Transfer Count' = COUNTROWS(Fact_MachineTransfer)
+		formatString: #,0
+		lineageTag: 9343d5b7-6dd4-48c0-ad87-4264594b9458
+
+	measure 'Refill to Sales Ratio' = DIVIDE([Total Transfer Value], [Successful Sales Value], 0)
+		formatString: 0.00%
+		lineageTag: d98fdd8a-02cc-4590-91dd-26a98d773e91
+
+	measure 'Total PO Count' = COUNTROWS(Fact_PurchaseOrder)
+		formatString: #,0
+		lineageTag: e7d01624-f72b-483c-8987-cadf42572302
+
+	measure 'Total Inbound Value' = SUM(Fact_InboundInventory[TotalAmount])
+		formatString: #,0 ₫
+		lineageTag: 9020a8f7-b487-4c12-89fb-ff268cb4372a
+
+	measure 'Average AOV' = DIVIDE([Successful Sales Value], [Successful Transactions], 0)
+		formatString: #,0 ₫
+		lineageTag: ff1934bc-3af1-43bd-82c0-b7ddeafb2389
+
+	measure 'Covid Lockdown Revenue' = CALCULATE([Successful Sales Value], Dim_Date[IsCovidLockdown] = TRUE)
+		formatString: #,0 ₫
+		lineageTag: 17d44f32-5d3d-4441-a082-28b869539da8
+
+	measure 'Top 20% Machine Revenue Share' = CALCULATE([Successful Sales Value], TOPN(66, Dim_Machine, [Successful Sales Value], DESC))
+		formatString: #,0 ₫
+		lineageTag: 1915e0b2-e1df-4448-bf68-e6d4fcbc9c49
+
+	measure 'PO Value' = SUMX(Fact_PurchaseOrder, Fact_PurchaseOrder[TaxVAT] * 1.1)
+		formatString: #,0 ₫
+		lineageTag: 7c36f91d-5198-4bec-90e7-a905526c8dd8
+
+	measure 'Data Quality Integrity Index' = 1 - DIVIDE([DQ Refund Exceptions], [Total Sales Rows], 0)
+		formatString: 0.00%
+		lineageTag: 478e93ef-ae04-40d1-9284-a88183b47503
+
+	column TransactionId
+		dataType: int64
+		formatString: 0
+		lineageTag: 764960d8-0e4c-4c13-81fe-ae42c6f1b6c6
+		summarizeBy: count
+		sourceColumn: TransactionId
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 728839f8-af03-457b-b1cd-a0519aedde37
+		summarizeBy: none
+		sourceColumn: DateKey
+
+	column Hour
+		dataType: int64
+		formatString: 0
+		lineageTag: ccca9d76-906b-4e0f-9386-e83b4cee87dd
+		summarizeBy: sum
+		sourceColumn: Hour
+
+	column MachineCode
+		dataType: string
+		lineageTag: aa6a84ce-eaaa-4e57-a13d-95caef935196
+		summarizeBy: none
+		sourceColumn: MachineCode
+
+	column TotalPrice
+		dataType: int64
+		formatString: 0
+		lineageTag: cd8f59ac-b8d8-49ad-a41c-fff96486a29e
+		summarizeBy: sum
+		sourceColumn: TotalPrice
+
+	column TransactionStatus
+		dataType: string
+		lineageTag: c38879b5-2b26-4a1a-b1fb-211c154ffe09
+		summarizeBy: none
+		sourceColumn: TransactionStatus
+
+	column RefundedQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: d5ae0592-0f37-4afd-a289-4d7080d63ed8
+		summarizeBy: sum
+		sourceColumn: RefundedQuantity
+
+	column RefundedAmount
+		dataType: int64
+		formatString: 0
+		lineageTag: 47883d26-01ae-4f9a-a17e-ecf56012ed94
+		summarizeBy: sum
+		sourceColumn: RefundedAmount
+
+	column MachinePosition
+		dataType: string
+		lineageTag: 4ff308fd-a3e2-47a1-8616-7f9e84d24ff8
+		summarizeBy: none
+		sourceColumn: MachinePosition
+
+	column ProductId
+		dataType: int64
+		formatString: 0
+		lineageTag: a4adce22-021d-4b46-8651-5715b1909346
+		summarizeBy: none
+		sourceColumn: ProductId
+
+	column TransactionOutcomeGroup
+		dataType: string
+		lineageTag: 14d03af1-03ff-4e97-a305-8fbc8f8bca23
+		summarizeBy: none
+		sourceColumn: TransactionOutcomeGroup
+
+	partition Fact_Sales = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\buimi\OneDrive\Documents\AI_AGENT\ANALYTIC\cleaned_dataset\Cleaned_StarSchema_VendingMachine.xlsx"), null, true),
+				    Fact_Sales_Sheet = Source{[Item="Fact_Sales",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Fact_Sales_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"TransactionId", Int64.Type}, {"DateKey", Int64.Type}, {"Hour", Int64.Type}, {"MachineCode", type text}, {"ProductId", Int64.Type}, {"TotalPrice", Int64.Type}, {"TransactionStatus", type text}, {"RefundedQuantity", Int64.Type}, {"RefundedAmount", Int64.Type}, {"MachinePosition", type text}, {"TransactionOutcomeGroup", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

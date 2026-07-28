@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Vending Machine Analysis"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ce7367b9-c7a7-4d3d-9e77-887749dd7c4f"
+  }
+}

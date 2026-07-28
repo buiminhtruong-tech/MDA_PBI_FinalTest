@@ -1,0 +1,66 @@
+====================================================================
+DANH MỤC 24 CÔNG THỨC DAX MEASURES CHUẨN CHO POWER BI
+(Dán trực tiếp vào New Measure trong Fact_Sales hoặc dùng Tabular Editor)
+====================================================================
+
+// --- 1. NHÓM DOANH THU & GIAO DỊCH (SALES METRICS) ---
+
+Total Sales Rows = COUNTROWS(Fact_Sales)
+
+Successful Transactions = CALCULATE([Total Sales Rows], Fact_Sales[TransactionOutcomeGroup] = "Success")
+
+Failed Attempts = CALCULATE([Total Sales Rows], Fact_Sales[TransactionOutcomeGroup] = "Failed_or_Cancelled")
+
+Refund Transactions = CALCULATE([Total Sales Rows], Fact_Sales[TransactionOutcomeGroup] = "Refunded")
+
+Overall Success Rate = DIVIDE([Successful Transactions], [Total Sales Rows], 0)
+
+Successful Sales Value = CALCULATE(SUM(Fact_Sales[TotalPrice]), Fact_Sales[TransactionOutcomeGroup] = "Success")
+
+Value at Risk = CALCULATE(SUM(Fact_Sales[TotalPrice]), Fact_Sales[TransactionOutcomeGroup] = "Failed_or_Cancelled")
+
+Average AOV = DIVIDE([Successful Sales Value], [Successful Transactions], 0)
+
+Top 20% Machine Revenue Share = CALCULATE([Successful Sales Value], TOPN(66, Dim_Machine, [Successful Sales Value], DESC))
+
+
+// --- 2. NHÓM CHẨN ĐOÁN STRUCTURAL BREAK 29/04 & COVID-19 ---
+
+Success Rate Pre 29/04 = CALCULATE([Overall Success Rate], Dim_Date[FullDate] < DATE(2020,4,29))
+
+Success Rate Post 29/04 = CALCULATE([Overall Success Rate], Dim_Date[FullDate] >= DATE(2020,4,29))
+
+Covid Lockdown Revenue = CALCULATE([Successful Sales Value], Dim_Date[IsCovidLockdown] = TRUE)
+
+
+// --- 3. NHÓM QUẢN TRỊ VẬN HÀNH ĐỘI MÁY & REFILL LOGISTICS ---
+
+Active Machines Count = CALCULATE(COUNTROWS(Dim_Machine), Dim_Machine[MachineStatus] = "ON")
+
+Active Fleet Rate = DIVIDE([Active Machines Count], COUNTROWS(Dim_Machine), 0)
+
+Total Transfer Value = SUM(Fact_MachineTransfer[TotalAmount])
+
+Total Transfer Count = COUNTROWS(Fact_MachineTransfer)
+
+Refill to Sales Ratio = DIVIDE([Total Transfer Value], [Successful Sales Value], 0)
+
+
+// --- 4. NHÓM QUẢN LÝ ĐƠN HÀNG PO & NHẬP KHO NCC ---
+
+Total PO Count = COUNTROWS(Fact_PurchaseOrder)
+
+Total Inbound Value = SUM(Fact_InboundInventory[TotalAmount])
+
+PO Value = SUMX(Fact_PurchaseOrder, Fact_PurchaseOrder[TaxVAT] * 1.1)
+
+
+// --- 5. NHÓM QUẢN TRỊ CHẤT LƯỢNG DỮ LIỆU (DATA GOVERNANCE) ---
+
+Total Refund Amount = SUM(Fact_Sales[RefundedAmount])
+
+Verified Refund Amount = CALCULATE(SUM(Fact_Sales[RefundedAmount]), Fact_Sales[TransactionOutcomeGroup] = "Refunded")
+
+DQ Refund Exceptions = COUNTROWS(Sales_DQ_Exceptions)
+
+Data Quality Integrity Index = 1 - DIVIDE([DQ Refund Exceptions], [Total Sales Rows], 0)

@@ -1,0 +1,32 @@
+relationship Rel_Sales_Date
+	fromColumn: Fact_Sales.DateKey
+	toColumn: Dim_Date.DateKey
+
+relationship Rel_Sales_Machine
+	fromColumn: Fact_Sales.MachineCode
+	toColumn: Dim_Machine.MachineCode
+
+relationship Rel_Sales_Product
+	fromColumn: Fact_Sales.ProductId
+	toColumn: Dim_Product.ProductId
+
+relationship Rel_Transfer_Machine
+	fromColumn: Fact_MachineTransfer.MachineCodeDerived
+	toColumn: Dim_Machine.MachineCode
+
+relationship Rel_Transfer_Date
+	fromColumn: Fact_MachineTransfer.TransferDateKey
+	toColumn: Dim_Date.DateKey
+
+relationship Rel_Inbound_Date
+	fromColumn: Fact_InboundInventory.ImportDateKey
+	toColumn: Dim_Date.DateKey
+
+relationship Rel_PO_Date
+	fromColumn: Fact_PurchaseOrder.OrderDateKey
+	toColumn: Dim_Date.DateKey
+
+relationship Rel_Machine_Location
+	fromColumn: Dim_Machine.ParentLocationName
+	toColumn: Dim_Location.LocationName
+

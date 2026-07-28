@@ -1,0 +1,81 @@
+table Dim_Machine
+	lineageTag: 6aa1e46c-b944-4745-a469-27451853876f
+
+	column MachineId
+		dataType: int64
+		formatString: 0
+		lineageTag: a4fcf9c5-7536-4129-b375-81dd06708f24
+		summarizeBy: none
+		sourceColumn: MachineId
+
+		annotation SummarizationSetBy = Automatic
+
+	column MachineCode
+		dataType: string
+		lineageTag: ce23e2f7-15c2-45f9-9304-c2317257918b
+		summarizeBy: none
+		sourceColumn: MachineCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column MachineModelName
+		dataType: string
+		lineageTag: 9989fa44-bdaa-4b64-83b7-c55a58079a92
+		summarizeBy: none
+		sourceColumn: MachineModelName
+
+		annotation SummarizationSetBy = Automatic
+
+	column MachineModelCode
+		dataType: string
+		lineageTag: a20098e2-2911-45d5-a2ac-49bf5b4fb386
+		summarizeBy: none
+		sourceColumn: MachineModelCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column MachineStatus
+		dataType: string
+		lineageTag: c00ead7e-4f71-4d60-8f8a-807cc63242f8
+		summarizeBy: none
+		sourceColumn: MachineStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column LocationType
+		dataType: string
+		lineageTag: 6aed3dea-0b69-4d90-9612-a3fdc3962672
+		summarizeBy: none
+		sourceColumn: LocationType
+
+		annotation SummarizationSetBy = Automatic
+
+	column ParentLocationName
+		dataType: string
+		lineageTag: b10a4cab-cfac-4de1-af6e-a7217642c0e6
+		summarizeBy: none
+		sourceColumn: ParentLocationName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ParentDistrict
+		dataType: string
+		lineageTag: 1153e4e9-873e-443c-8e36-a015b8ec0663
+		summarizeBy: none
+		sourceColumn: ParentDistrict
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Machine = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\buimi\OneDrive\Documents\AI_AGENT\ANALYTIC\cleaned_dataset\Cleaned_StarSchema_VendingMachine.xlsx"), null, true),
+				    Dim_Machine_Sheet = Source{[Item="Dim_Machine",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Dim_Machine_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"MachineId", Int64.Type}, {"MachineCode", type text}, {"MachineModelName", type text}, {"MachineModelCode", type text}, {"MachineStatus", type text}, {"LocationType", type text}, {"ParentLocationName", type text}, {"ParentDistrict", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

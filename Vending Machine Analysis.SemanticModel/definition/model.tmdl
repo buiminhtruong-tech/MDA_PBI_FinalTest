@@ -1,0 +1,26 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-AU
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Dim_Date","Dim_Location","Dim_Machine","Dim_Product","Fact_InboundInventory","Fact_MachineTransfer","Fact_PurchaseOrder","Fact_Sales","Sales_DQ_Exceptions"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Dim_Date
+ref table Dim_Location
+ref table Dim_Machine
+ref table Dim_Product
+ref table Fact_InboundInventory
+ref table Fact_MachineTransfer
+ref table Fact_PurchaseOrder
+ref table Fact_Sales
+ref table Sales_DQ_Exceptions
+
+ref cultureInfo en-US
+

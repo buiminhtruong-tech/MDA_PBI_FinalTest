@@ -1,0 +1,95 @@
+table Fact_InboundInventory
+	lineageTag: 3ba5f324-50c6-459a-8f14-bb76e3cd6a1f
+
+	column InboundId
+		dataType: int64
+		formatString: 0
+		lineageTag: 0898af43-0b1d-42d3-b015-eda3c0a3102c
+		summarizeBy: count
+		sourceColumn: InboundId
+
+		annotation SummarizationSetBy = Automatic
+
+	column InboundCode
+		dataType: string
+		lineageTag: 48030000-f291-46ee-b30c-b78363c3ae22
+		summarizeBy: none
+		sourceColumn: InboundCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ImportDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: e5ffef7c-ab58-412f-b907-be05f7525d1b
+		summarizeBy: count
+		sourceColumn: ImportDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column WarehouseId
+		dataType: int64
+		formatString: 0
+		lineageTag: 9e153c80-d83f-4230-a8a0-b9c114aa3e30
+		summarizeBy: count
+		sourceColumn: WarehouseId
+
+		annotation SummarizationSetBy = Automatic
+
+	column WarehouseName
+		dataType: string
+		lineageTag: a2339683-ee3f-48a0-95c9-4411a3c4de1d
+		summarizeBy: none
+		sourceColumn: WarehouseName
+
+		annotation SummarizationSetBy = Automatic
+
+	column SupplierId
+		dataType: int64
+		formatString: 0
+		lineageTag: 3941e181-fa7e-4949-b912-600b32dbea5c
+		summarizeBy: count
+		sourceColumn: SupplierId
+
+		annotation SummarizationSetBy = Automatic
+
+	column SupplierName
+		dataType: string
+		lineageTag: 244ee960-076a-4ef9-9b44-e4a5de284ace
+		summarizeBy: none
+		sourceColumn: SupplierName
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderPOId
+		dataType: int64
+		formatString: 0
+		lineageTag: 3aa06865-36b4-457e-b13d-02c1e798e740
+		summarizeBy: count
+		sourceColumn: OrderPOId
+
+		annotation SummarizationSetBy = Automatic
+
+	column TotalAmount
+		dataType: double
+		lineageTag: 8674cd82-0ba5-4026-9b0f-f825f697bfb7
+		summarizeBy: sum
+		sourceColumn: TotalAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Fact_InboundInventory = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\buimi\OneDrive\Documents\AI_AGENT\ANALYTIC\cleaned_dataset\Cleaned_StarSchema_VendingMachine.xlsx"), null, true),
+				    Fact_InboundInventory_Sheet = Source{[Item="Fact_InboundInventory",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Fact_InboundInventory_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"InboundId", Int64.Type}, {"InboundCode", type text}, {"ImportDateKey", Int64.Type}, {"WarehouseId", Int64.Type}, {"WarehouseName", type text}, {"SupplierId", Int64.Type}, {"SupplierName", type text}, {"OrderPOId", Int64.Type}, {"TotalAmount", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

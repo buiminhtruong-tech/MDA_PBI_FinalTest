@@ -1,0 +1,52 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.4.0/schema.json",
+  "name": "chart_location",
+  "position": {
+    "x": 820,
+    "y": 160,
+    "width": 440,
+    "height": 530,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_Machine"
+                    }
+                  },
+                  "Property": "LocationType"
+                }
+              },
+              "queryRef": "Dim_Machine.LocationType"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Sales"
+                    }
+                  },
+                  "Property": "Successful Sales Value"
+                }
+              },
+              "queryRef": "Fact_Sales.Successful Sales Value"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

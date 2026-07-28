@@ -1,0 +1,77 @@
+table Dim_Location
+	lineageTag: 731db1a7-ba38-43a4-b1a3-5c54a8f3bb0e
+
+	column LocationId
+		dataType: int64
+		formatString: 0
+		lineageTag: 1e396883-31d4-4c6a-96d8-16f2060d9713
+		summarizeBy: count
+		sourceColumn: LocationId
+
+		annotation SummarizationSetBy = Automatic
+
+	column LocationName
+		dataType: string
+		lineageTag: 180f9ae8-7c37-442a-a759-985b09de1be6
+		summarizeBy: none
+		sourceColumn: LocationName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Street
+		dataType: string
+		lineageTag: 22d56f62-fff0-43a4-8982-a56dbe6f7e0c
+		summarizeBy: none
+		sourceColumn: Street
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ward
+		dataType: string
+		lineageTag: d59c13db-77f6-4980-867f-51189673758f
+		summarizeBy: none
+		sourceColumn: Ward
+
+		annotation SummarizationSetBy = Automatic
+
+	column District
+		dataType: string
+		lineageTag: ed22824a-4ec1-4d9a-8d76-8517cb71859d
+		summarizeBy: none
+		sourceColumn: District
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		lineageTag: 670fc5df-89d3-4c97-a463-e3e254e6bac2
+		summarizeBy: sum
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		lineageTag: aac1840e-9e3e-4e83-9746-a251325ca5ee
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Dim_Location = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\buimi\OneDrive\Documents\AI_AGENT\ANALYTIC\cleaned_dataset\Cleaned_StarSchema_VendingMachine.xlsx"), null, true),
+				    Dim_Location_Sheet = Source{[Item="Dim_Location",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Dim_Location_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"LocationId", Int64.Type}, {"LocationName", type text}, {"Street", type text}, {"Ward", type text}, {"District", type text}, {"Latitude", type number}, {"Longitude", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
