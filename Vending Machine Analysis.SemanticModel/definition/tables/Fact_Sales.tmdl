@@ -97,6 +97,9 @@ table Fact_Sales
 		formatString: 0.00%
 		lineageTag: 478e93ef-ae04-40d1-9284-a88183b47503
 
+	measure 'Report Title' = "SkillsHub Vietnam"
+		lineageTag: bec96d03-1f86-403c-9800-4f1b4f694e25
+
 	column TransactionId
 		dataType: int64
 		formatString: 0

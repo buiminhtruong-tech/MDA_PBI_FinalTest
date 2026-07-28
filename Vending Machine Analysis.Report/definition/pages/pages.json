@@ -1,13 +1,11 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.0.0/schema.json",
   "pageOrder": [
-    "Page1_Executive",
-    "Page2_Portfolio",
+    "Page1_Overview",
+    "Page2_Performance",
     "Page3_Reliability",
     "Page4_Replenishment",
-    "Page5_Procurement",
-    "Page6_Governance",
-    "20be65b03dd461a1655d"
+    "Page5_Matrix"
   ],
-  "activePageName": "Page1_Executive"
+  "activePageName": "Page1_Overview"
 }

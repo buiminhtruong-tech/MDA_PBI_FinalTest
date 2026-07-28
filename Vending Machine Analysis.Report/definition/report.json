@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.2.0/schema.json",
   "themeCollection": {
     "baseTheme": {
-      "name": "CY26SU04",
+      "name": "SkillsHub_Light",
       "reportVersionAtImport": {
         "visual": "2.8.0",
         "report": "3.2.0",
@@ -24,6 +24,19 @@
           }
         }
       }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
     ]
   },
   "resourcePackages": [
@@ -32,8 +45,8 @@
       "type": "SharedResources",
       "items": [
         {
-          "name": "CY26SU04",
-          "path": "BaseThemes/CY26SU04.json",
+          "name": "SkillsHub_Light",
+          "path": "BaseThemes/SkillsHub_Light.json",
           "type": "BaseTheme"
         }
       ]

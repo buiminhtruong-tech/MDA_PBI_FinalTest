@@ -1,10 +1,10 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.4.0/schema.json",
-  "name": "chart_rate_trend",
+  "name": "chart_date_trend",
   "position": {
     "x": 20,
     "y": 150,
-    "width": 1240,
+    "width": 780,
     "height": 530,
     "tabOrder": 2
   },
@@ -36,10 +36,10 @@
                     "Entity": "Fact_Sales"
                   }
                 },
-                "Property": "Overall Success Rate"
+                "Property": "Successful Sales Value"
               }
             },
-            "queryRef": "Fact_Sales.Overall Success Rate"
+            "queryRef": "Fact_Sales.Successful Sales Value"
           }
         ]
       }

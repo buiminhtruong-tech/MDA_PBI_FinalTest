@@ -1,0 +1,87 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.4.0/schema.json",
+  "name": "tbl_action_matrix",
+  "position": {
+    "x": 20,
+    "y": 150,
+    "width": 1240,
+    "height": 530,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "table",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_Machine"
+                    }
+                  },
+                  "Property": "MachineCode"
+                }
+              },
+              "queryRef": "Dim_Machine.MachineCode"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_Machine"
+                    }
+                  },
+                  "Property": "LocationType"
+                }
+              },
+              "queryRef": "Dim_Machine.LocationType"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_Machine"
+                    }
+                  },
+                  "Property": "MachineStatus"
+                }
+              },
+              "queryRef": "Dim_Machine.MachineStatus"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Sales"
+                    }
+                  },
+                  "Property": "Successful Sales Value"
+                }
+              },
+              "queryRef": "Fact_Sales.Successful Sales Value"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Sales"
+                    }
+                  },
+                  "Property": "Overall Success Rate"
+                }
+              },
+              "queryRef": "Fact_Sales.Overall Success Rate"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

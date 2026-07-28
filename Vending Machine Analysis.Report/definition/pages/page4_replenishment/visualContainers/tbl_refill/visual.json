@@ -1,0 +1,61 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.4.0/schema.json",
+  "name": "tbl_refill",
+  "position": {
+    "x": 20,
+    "y": 160,
+    "width": 1240,
+    "height": 520,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "table",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_MachineTransfer"
+                    }
+                  },
+                  "Property": "TransferCode"
+                }
+              },
+              "queryRef": "Fact_MachineTransfer.TransferCode"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_MachineTransfer"
+                    }
+                  },
+                  "Property": "MachineCodeDerived"
+                }
+              },
+              "queryRef": "Fact_MachineTransfer.MachineCodeDerived"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_MachineTransfer"
+                    }
+                  },
+                  "Property": "TotalAmount"
+                }
+              },
+              "queryRef": "Fact_MachineTransfer.TotalAmount"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
