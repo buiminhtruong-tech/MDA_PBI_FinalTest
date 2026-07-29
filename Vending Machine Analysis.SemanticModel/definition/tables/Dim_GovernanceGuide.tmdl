@@ -1,0 +1,63 @@
+table Dim_GovernanceGuide
+	lineageTag: 7dc180d2-9bc0-447f-a1e0-4dceab81360e
+
+	column Sequence
+		dataType: int64
+		formatString: 0
+		lineageTag: 35672d76-33f2-47ce-8a6f-168a11ed656c
+		summarizeBy: none
+		sourceColumn: Sequence
+
+		annotation SummarizationSetBy = Automatic
+
+	column Domain
+		dataType: string
+		lineageTag: 67042504-f973-4467-bbfc-9ce968e4fb90
+		summarizeBy: none
+		sourceColumn: Domain
+
+		annotation SummarizationSetBy = Automatic
+
+	column Capability
+		dataType: string
+		lineageTag: f06577c3-c77b-424f-ae88-196201886014
+		summarizeBy: none
+		sourceColumn: Capability
+
+		annotation SummarizationSetBy = Automatic
+
+	column Scope
+		dataType: string
+		lineageTag: 5d1b2a27-13d1-423d-84a7-2675b640b792
+		summarizeBy: none
+		sourceColumn: Scope
+
+		annotation SummarizationSetBy = Automatic
+
+	column EvidenceOrNeed
+		dataType: string
+		lineageTag: f862656e-7d27-48b9-80b6-b21b271d39bc
+		summarizeBy: none
+		sourceColumn: EvidenceOrNeed
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_GovernanceGuide = m
+		mode: import
+		source =
+				let
+				    Source = #table(
+				        type table [Sequence = Int64.Type, Domain = text, Capability = text, Scope = text, EvidenceOrNeed = text],
+				        {
+				            {1, "Semantic model", "Star schema and conformed dimensions", "SUPPORTED NOW", "Dim_Date, Dim_Machine, Dim_Location, Dim_Product"},
+				            {2, "Metric governance", "Governed DAX measures", "SUPPORTED NOW", "Validated measures in semantic model"},
+				            {3, "Data quality", "Refund/status exception log", "SUPPORTED NOW", "Sales_DQ_Exceptions and integrity KPI"},
+				            {4, "Lineage", "Known data limitations", "SUPPORTED NOW", "Documented exclusions and validation rules"},
+				            {5, "Security", "District/operator row-level security", "FUTURE DATA", "Requires operator ownership and access policy"},
+				            {6, "Telemetry", "Real-time machine health alerts", "FUTURE DATA", "Requires power, connectivity, temperature, error events"}
+				        }
+				    )
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

@@ -1,49 +1,86 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
-  "name": "p2_title_skillshub",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "p6_slicer_machinestatus",
   "position": {
-    "x": 20,
+    "x": 920,
     "y": 16,
-    "z": 9000,
-    "width": 370,
+    "z": 9103,
     "height": 84,
-    "tabOrder": 0
+    "width": 165,
+    "tabOrder": 13
   },
   "visual": {
-    "visualType": "cardVisual",
+    "visualType": "slicer",
     "query": {
       "queryState": {
-        "Data": {
+        "Values": {
           "projections": [
             {
               "field": {
-                "Measure": {
+                "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Fact_Sales"
+                      "Entity": "Dim_Machine"
                     }
                   },
-                  "Property": "Report Title"
+                  "Property": "MachineStatus"
                 }
               },
-              "nativeQueryRef": "Report Title",
-              "queryRef": "Fact_Sales.Report Title"
+              "queryRef": "Dim_Machine.MachineStatus",
+              "nativeQueryRef": "MachineStatus",
+              "active": true,
+              "displayName": "Machine Status"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Dim_Machine"
+                  }
+                },
+                "Property": "MachineStatus"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
       }
     },
     "objects": {
-      "value": [
+      "data": [
         {
-          "selector": {
-            "id": "default"
-          },
           "properties": {
-            "fontSize": {
+            "mode": {
               "expr": {
                 "Literal": {
-                  "Value": "22D"
+                  "Value": "'Dropdown'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "header": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Machine Status'"
                 }
               }
             },
@@ -58,10 +95,10 @@
                 }
               }
             },
-            "bold": {
+            "textSize": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "10D"
                 }
               }
             },
@@ -69,132 +106,6 @@
               "expr": {
                 "Literal": {
                   "Value": "'Segoe UI Semibold'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "label": [
-        {
-          "selector": {
-            "id": "default"
-          },
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Machine & Location Performance | Descriptive & Diagnostic Analytics'"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9D"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#0284C7'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontFamily": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Segoe UI'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "outline": [
-        {
-          "selector": {
-            "id": "default"
-          },
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "padding": [
-        {
-          "selector": {
-            "id": "default"
-          },
-          "properties": {
-            "paddingIndividual": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "paddingUniform": {
-              "expr": {
-                "Literal": {
-                  "Value": "0D"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "layout": [
-        {
-          "selector": {
-            "id": "default"
-          },
-          "properties": {
-            "paddingIndividual": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "paddingUniform": {
-              "expr": {
-                "Literal": {
-                  "Value": "0D"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "spacing": [
-        {
-          "selector": {
-            "id": "default"
-          },
-          "properties": {
-            "verticalSpacing": {
-              "expr": {
-                "Literal": {
-                  "Value": "0D"
                 }
               }
             }
@@ -249,7 +160,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#0284C7'"
+                      "Value": "'#475569'"
                     }
                   }
                 }
@@ -319,6 +230,11 @@
           }
         }
       ]
+    },
+    "syncGroup": {
+      "groupName": "SkillsHubMachineStatusSync",
+      "fieldChanges": true,
+      "filterChanges": true
     }
   }
 }

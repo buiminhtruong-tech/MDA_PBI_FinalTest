@@ -81,7 +81,7 @@ Vending Machine Analysis.Report/definition/pages/<pageFolder>/visuals/<visualNam
 
 - Moi page phai co title ro `SkillsHub Vietnam`.
 - Moi page can co slicer chung neu phu hop: `Year`, `District`, `Location Type`, `Product Category`, `Machine Status`.
-- Khong dung `Product Category` slicer tren `Page4_Replenishment` va `Page5_Matrix` cho den khi transfer/action metrics co ProductId line-level; filter nay co the tao ngu canh sai cho replenishment va machine-action.
+- Khong dung `Product Category` slicer tren `Page4_Replenishment`, `Page5_Matrix` va `Page6_Governance` cho den khi transfer/action/governance exception metrics co ProductId line-level; filter nay co the tao ngu canh sai.
 - Slicer chung tren cac page phai dung sync group rieng theo field, vi du `SkillsHubProductCategorySync` cho `Dim_Product.ProductCategory`; khong copy nham sync group cua slicer khac.
 - Theme hien tai la light theme:
   - page background `#F8FAFC`
@@ -93,6 +93,7 @@ Vending Machine Analysis.Report/definition/pages/<pageFolder>/visuals/<visualNam
 - Moi analytical chart/table nen co subtitle dang decision cue hoac data note, khong lap lai brand name khi page title da co `SkillsHub Vietnam`.
 - Neu visual dung benchmark/threshold de ra quyet dinh, phai hien ro threshold trong title/subtitle hoac bang measure rieng. Neu threshold la gia dinh van hanh, ghi trong `DASHBOARD_DATA_LIMITATIONS.md`.
 - Trang prescriptive/action phai dua priority/action KPI len truoc detail table, va detail table phai sort theo priority truoc roi moi den impact/revenue.
+- Trang governance phai phan biet `SUPPORTED NOW` va `FUTURE DATA`, va khong goi telemetry/RLS la supported neu chua co owner, access policy hoac event stream.
 
 ## 7. Required Validation
 

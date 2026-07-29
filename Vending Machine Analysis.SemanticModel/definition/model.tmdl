@@ -8,7 +8,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["Dim_Date","Dim_Location","Dim_Machine","Dim_Product","Dim_ActionGuide","Fact_InboundInventory","Fact_MachineTransfer","Fact_PurchaseOrder","Fact_Sales","Sales_DQ_Exceptions"]
+annotation PBI_QueryOrder = ["Dim_Date","Dim_Location","Dim_Machine","Dim_Product","Dim_ActionGuide","Dim_GovernanceGuide","Fact_InboundInventory","Fact_MachineTransfer","Fact_PurchaseOrder","Fact_Sales","Sales_DQ_Exceptions"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
@@ -22,6 +22,7 @@ ref table Fact_PurchaseOrder
 ref table Fact_Sales
 ref table Sales_DQ_Exceptions
 ref table Dim_ActionGuide
+ref table Dim_GovernanceGuide
 
 ref cultureInfo en-US
 

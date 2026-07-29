@@ -1,38 +1,101 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
-  "name": "c4",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "tbl_governance_coverage",
   "position": {
-    "x": 644,
-    "y": 116,
-    "width": 200,
-    "height": 98,
-    "tabOrder": 4
+    "x": 20,
+    "y": 240,
+    "width": 590,
+    "height": 465,
+    "tabOrder": 10
   },
   "visual": {
-    "visualType": "cardVisual",
+    "visualType": "tableEx",
     "query": {
       "queryState": {
-        "Data": {
+        "Values": {
           "projections": [
             {
               "field": {
-                "Measure": {
+                "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Fact_Sales"
+                      "Entity": "Dim_GovernanceGuide"
                     }
                   },
-                  "Property": "Total PO Count"
+                  "Property": "Domain"
                 }
               },
-              "queryRef": "Fact_Sales.Total PO Count",
-              "nativeQueryRef": "Total PO Count"
+              "queryRef": "Dim_GovernanceGuide.Domain",
+              "nativeQueryRef": "Domain",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_GovernanceGuide"
+                    }
+                  },
+                  "Property": "Capability"
+                }
+              },
+              "queryRef": "Dim_GovernanceGuide.Capability",
+              "nativeQueryRef": "Capability",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_GovernanceGuide"
+                    }
+                  },
+                  "Property": "Scope"
+                }
+              },
+              "queryRef": "Dim_GovernanceGuide.Scope",
+              "nativeQueryRef": "Scope",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_GovernanceGuide"
+                    }
+                  },
+                  "Property": "EvidenceOrNeed"
+                }
+              },
+              "queryRef": "Dim_GovernanceGuide.EvidenceOrNeed",
+              "nativeQueryRef": "Evidence / Needed data",
+              "active": true
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Dim_GovernanceGuide"
+                  }
+                },
+                "Property": "Sequence"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
       }
     },
-    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "background": [
         {
@@ -80,7 +143,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#0284C7'"
+                      "Value": "'#475569'"
                     }
                   }
                 }
@@ -149,19 +212,21 @@
             }
           }
         }
-      ]
-    },
-    "objects": {
-      "value": [
+      ],
+      "title": [
         {
-          "selector": {
-            "id": "default"
-          },
           "properties": {
-            "fontSize": {
+            "show": {
               "expr": {
                 "Literal": {
-                  "Value": "20D"
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Governance Coverage'"
                 }
               }
             },
@@ -173,6 +238,13 @@
                       "Value": "'#0F172A'"
                     }
                   }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
                 }
               }
             },
@@ -193,11 +265,8 @@
           }
         }
       ],
-      "label": [
+      "subTitle": [
         {
-          "selector": {
-            "id": "default"
-          },
           "properties": {
             "show": {
               "expr": {
@@ -209,14 +278,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Purchase Orders'"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9D"
+                  "Value": "'Supported now vs future data required'"
                 }
               }
             },
@@ -225,9 +287,16 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#64748B'"
+                      "Value": "'#475569'"
                     }
                   }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
                 }
               }
             },
@@ -240,23 +309,8 @@
             }
           }
         }
-      ],
-      "outline": [
-        {
-          "selector": {
-            "id": "default"
-          },
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
       ]
-    }
+    },
+    "drillFilterOtherVisuals": true
   }
 }

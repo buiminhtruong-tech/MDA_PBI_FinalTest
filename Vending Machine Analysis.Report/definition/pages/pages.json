@@ -5,7 +5,8 @@
     "Page2_Performance",
     "Page3_Reliability",
     "Page4_Replenishment",
-    "Page5_Matrix"
+    "Page5_Matrix",
+    "Page6_Governance"
   ],
-  "activePageName": "Page5_Matrix"
+  "activePageName": "Page6_Governance"
 }

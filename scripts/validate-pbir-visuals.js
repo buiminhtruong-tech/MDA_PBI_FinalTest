@@ -39,7 +39,7 @@ const requiredSlicers = [
     label: "Product Category",
     key: "Dim_Product.ProductCategory",
     syncGroup: "SkillsHubProductCategorySync",
-    excludePages: new Set(["Page4_Replenishment", "Page5_Matrix"]),
+    excludePages: new Set(["Page4_Replenishment", "Page5_Matrix", "Page6_Governance"]),
   },
   { label: "Machine Status", key: "Dim_Machine.MachineStatus", syncGroup: "SkillsHubMachineStatusSync" },
 ];

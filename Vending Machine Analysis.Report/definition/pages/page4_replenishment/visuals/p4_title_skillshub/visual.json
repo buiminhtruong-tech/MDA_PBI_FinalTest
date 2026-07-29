@@ -91,7 +91,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Refill & Supply | Predictive Analytics'"
+                  "Value": "'Refill & Supply | Descriptive & Diagnostic Analytics'"
                 }
               }
             },
@@ -107,7 +107,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#10B981'"
+                      "Value": "'#D97706'"
                     }
                   }
                 }
@@ -249,7 +249,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#10B981'"
+                      "Value": "'#D97706'"
                     }
                   }
                 }

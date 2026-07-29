@@ -1,51 +1,123 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "chart_inbound_supplier",
+  "name": "tbl_dq_exceptions",
   "position": {
-    "x": 660,
-    "y": 232,
-    "height": 473,
-    "width": 600,
+    "x": 630,
+    "y": 240,
+    "width": 630,
+    "height": 465,
     "tabOrder": 11
   },
   "visual": {
-    "visualType": "clusteredBarChart",
+    "visualType": "tableEx",
     "query": {
       "queryState": {
-        "Category": {
+        "Values": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Fact_InboundInventory"
+                      "Entity": "Sales_DQ_Exceptions"
                     }
                   },
-                  "Property": "SupplierName"
+                  "Property": "TransactionId"
                 }
               },
-              "queryRef": "Fact_InboundInventory.SupplierName",
-              "nativeQueryRef": "Supplier",
+              "queryRef": "Sales_DQ_Exceptions.TransactionId",
+              "nativeQueryRef": "Transaction",
               "active": true
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
+            },
             {
               "field": {
-                "Measure": {
+                "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Fact_Sales"
+                      "Entity": "Sales_DQ_Exceptions"
                     }
                   },
-                  "Property": "Total Inbound Value"
+                  "Property": "DateKey"
                 }
               },
-              "queryRef": "Fact_Sales.Total Inbound Value",
-              "nativeQueryRef": "Inbound Value"
+              "queryRef": "Sales_DQ_Exceptions.DateKey",
+              "nativeQueryRef": "DateKey",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales_DQ_Exceptions"
+                    }
+                  },
+                  "Property": "MachineCode"
+                }
+              },
+              "queryRef": "Sales_DQ_Exceptions.MachineCode",
+              "nativeQueryRef": "Machine",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales_DQ_Exceptions"
+                    }
+                  },
+                  "Property": "TransactionStatus"
+                }
+              },
+              "queryRef": "Sales_DQ_Exceptions.TransactionStatus",
+              "nativeQueryRef": "Status",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales_DQ_Exceptions"
+                    }
+                  },
+                  "Property": "RefundedAmount"
+                }
+              },
+              "queryRef": "Sales_DQ_Exceptions.RefundedAmount",
+              "nativeQueryRef": "Refunded Amount",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales_DQ_Exceptions"
+                    }
+                  },
+                  "Property": "TransactionOutcomeGroup"
+                }
+              },
+              "queryRef": "Sales_DQ_Exceptions.TransactionOutcomeGroup",
+              "nativeQueryRef": "Outcome",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales_DQ_Exceptions"
+                    }
+                  },
+                  "Property": "YearMonth"
+                }
+              },
+              "queryRef": "Sales_DQ_Exceptions.YearMonth",
+              "nativeQueryRef": "YearMonth",
+              "active": true
             }
           ]
         }
@@ -54,16 +126,16 @@
         "sort": [
           {
             "field": {
-              "Measure": {
+              "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Fact_Sales"
+                    "Entity": "Sales_DQ_Exceptions"
                   }
                 },
-                "Property": "Total Inbound Value"
+                "Property": "DateKey"
               }
             },
-            "direction": "Descending"
+            "direction": "Ascending"
           }
         ],
         "isDefaultSort": true
@@ -199,7 +271,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Inbound Inventory Value by Supplier'"
+                  "Value": "'Data Quality Exception Log'"
                 }
               }
             },
@@ -251,7 +323,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Data note: inbound-only supplier value; PO and product filters are separate'"
+                  "Value": "'Refund/status rows used in integrity KPI; product filter intentionally excluded'"
                 }
               }
             },

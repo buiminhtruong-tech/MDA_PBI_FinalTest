@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
-  "name": "p2_title_skillshub",
+  "name": "p6_title_skillshub",
   "position": {
     "x": 20,
     "y": 16,
@@ -91,7 +91,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Machine & Location Performance | Descriptive & Diagnostic Analytics'"
+                  "Value": "'Governance & Telemetry | Mixed Scope Analytics'"
                 }
               }
             },
@@ -107,7 +107,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#0284C7'"
+                      "Value": "'#475569'"
                     }
                   }
                 }
@@ -249,7 +249,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#0284C7'"
+                      "Value": "'#475569'"
                     }
                   }
                 }
