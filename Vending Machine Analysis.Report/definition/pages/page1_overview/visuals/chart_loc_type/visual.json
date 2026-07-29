@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "chart_loc_type",
   "position": {
-    "x": 820,
+    "x": 800,
     "y": 232,
     "height": 473,
-    "width": 440,
-    "tabOrder": 2
+    "width": 460,
+    "tabOrder": 11
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -26,7 +26,7 @@
                 }
               },
               "queryRef": "Dim_Machine.LocationType",
-              "nativeQueryRef": "LocationType",
+              "nativeQueryRef": "Location Type",
               "active": true
             }
           ]
@@ -45,7 +45,7 @@
                 }
               },
               "queryRef": "Fact_Sales.Successful Sales Value",
-              "nativeQueryRef": "Successful Sales Value"
+              "nativeQueryRef": "Revenue"
             }
           ]
         }
@@ -116,7 +116,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#06B6D4'"
+                      "Value": "'#0284C7'"
                     }
                   }
                 }

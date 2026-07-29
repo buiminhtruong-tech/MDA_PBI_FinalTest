@@ -9,8 +9,12 @@ Before creating or editing visuals in this repo:
 5. Use `queryState.<Role>.projections`; do not use legacy role arrays.
 6. Ensure `visual.json.name` equals the containing folder name.
 7. Ensure every field/measure referenced by a visual exists in the TMDL semantic model.
-8. Do not combine a category from one fact table with a measure from another unrelated fact table.
-9. Check category cardinality before building breakdown charts; one-value categories should become trend/detail/KPI visuals.
-10. Run `node scripts/validate-pbir-visuals.js` after every visual edit.
+8. Do not set projection `active` to `false`; inactive fields can make visuals render only headers or appear empty.
+9. Do not combine a category from one fact table with a measure from another unrelated fact table.
+10. Check category cardinality before building breakdown charts; one-value categories should become trend/detail/KPI visuals.
+11. Write DAX measures with multiple `VAR` statements as multi-line TMDL expressions.
+12. Ensure every chart/table visual has a visible `visualContainerObjects.title` with non-empty text.
+13. Keep common slicers on their own matching sync groups; do not reuse another slicer's sync group.
+14. Run `node scripts/validate-pbir-visuals.js` after every visual edit.
 
 See `POWERBI_VISUAL_RULES.md` for the full project rules.

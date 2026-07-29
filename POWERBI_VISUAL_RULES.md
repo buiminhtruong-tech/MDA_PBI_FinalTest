@@ -62,12 +62,15 @@ Vending Machine Analysis.Report/definition/pages/<pageFolder>/visuals/<visualNam
 
 - Card visual dung role `Data.projections`; chart dung role phu hop nhu `Category`, `Y`; slicer dung `Values`.
 - Moi projection phai co `field`, `queryRef`, va nen co `nativeQueryRef`.
+- Khong de projection trong visual o trang thai `"active": false`; field inactive co the lam table/chart chi hien header hoac nhin nhu khong co du lieu.
 - `position.x + width` khong duoc vuot page width; `position.y + height` khong duoc vuot page height.
+- Chart/table visual (`lineChart`, `clusteredBarChart`, `clusteredColumnChart`, `donutChart`, `tableEx`) phai co `visualContainerObjects.title` duoc bat va co text ro rang. Khong de title trong hoac chi dua vao ten folder visual.
 
 ## 5. Semantic Binding Rules
 
 - Moi field binding trong visual phai ton tai trong TMDL model.
 - Khong bind toi ten cot khong ton tai, vi du sai: `Dim_Machine.MachineModel`; dung: `Dim_Machine.MachineModelName`.
+- Measure DAX co nhieu `VAR` phai viet dang multi-line TMDL, khong de tat ca `VAR ... RETURN ...` tren mot dong vi Power BI Desktop co the bao loi cu phap khi visual su dung measure.
 - Khong tron category tu fact table A voi measure tu fact table B neu hai fact khong co relationship/bridge/TREATAS ro rang.
   - Loi da gap: `Fact_PurchaseOrder.SupplierName` + `[Total Inbound Value]` lam lap cung 1 tong cho moi supplier.
   - Cach dung: `Fact_InboundInventory.SupplierName` + `[Total Inbound Value]`.
@@ -78,6 +81,7 @@ Vending Machine Analysis.Report/definition/pages/<pageFolder>/visuals/<visualNam
 
 - Moi page phai co title ro `SkillsHub Vietnam`.
 - Moi page can co slicer chung neu phu hop: `Year`, `District`, `Location Type`, `Product Category`, `Machine Status`.
+- Slicer chung tren cac page phai dung sync group rieng theo field, vi du `SkillsHubProductCategorySync` cho `Dim_Product.ProductCategory`; khong copy nham sync group cua slicer khac.
 - Theme hien tai la light theme:
   - page background `#F8FAFC`
   - visual/card background `#FFFFFF`

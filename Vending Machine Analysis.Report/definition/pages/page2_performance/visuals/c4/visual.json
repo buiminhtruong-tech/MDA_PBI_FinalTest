@@ -2,9 +2,9 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "c4",
   "position": {
-    "x": 644,
+    "x": 950,
     "y": 116,
-    "width": 200,
+    "width": 290,
     "height": 98,
     "tabOrder": 4
   },
@@ -22,11 +22,11 @@
                       "Entity": "Fact_Sales"
                     }
                   },
-                  "Property": "Failed Rate"
+                  "Property": "Revenue per Active Machine"
                 }
               },
-              "queryRef": "Fact_Sales.Failed Rate",
-              "nativeQueryRef": "Failed Rate"
+              "queryRef": "Fact_Sales.Revenue per Active Machine",
+              "nativeQueryRef": "Revenue per Active Machine"
             }
           ]
         }
@@ -80,7 +80,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#F59E0B'"
+                      "Value": "'#0284C7'"
                     }
                   }
                 }
@@ -209,7 +209,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Failure Rate'"
+                  "Value": "'Revenue per Active Machine'"
                 }
               }
             },

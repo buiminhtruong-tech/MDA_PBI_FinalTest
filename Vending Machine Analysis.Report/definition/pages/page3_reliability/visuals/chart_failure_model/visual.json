@@ -1,66 +1,88 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
-  "name": "tbl_refill",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "chart_failure_model",
   "position": {
-    "x": 20,
+    "x": 800,
     "y": 232,
-    "width": 1240,
     "height": 473,
-    "tabOrder": 3
+    "width": 460,
+    "tabOrder": 11
   },
   "visual": {
-    "visualType": "tableEx",
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
-        "Values": {
+        "Category": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Fact_MachineTransfer"
+                      "Entity": "Dim_Machine"
                     }
                   },
-                  "Property": "TransferCode"
+                  "Property": "MachineModelName"
                 }
               },
-              "queryRef": "Fact_MachineTransfer.TransferCode",
-              "nativeQueryRef": "TransferCode"
+              "queryRef": "Dim_Machine.MachineModelName",
+              "nativeQueryRef": "Machine Model",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Sales"
+                    }
+                  },
+                  "Property": "Failed Attempts"
+                }
+              },
+              "queryRef": "Fact_Sales.Failed Attempts",
+              "nativeQueryRef": "Failed Attempts"
             },
             {
               "field": {
-                "Column": {
+                "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Fact_MachineTransfer"
+                      "Entity": "Fact_Sales"
                     }
                   },
-                  "Property": "MachineCodeDerived"
+                  "Property": "Refund Transactions"
                 }
               },
-              "queryRef": "Fact_MachineTransfer.MachineCodeDerived",
-              "nativeQueryRef": "MachineCodeDerived"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Fact_MachineTransfer"
-                    }
-                  },
-                  "Property": "TotalAmount"
-                }
-              },
-              "queryRef": "Fact_MachineTransfer.TotalAmount",
-              "nativeQueryRef": "TotalAmount"
+              "queryRef": "Fact_Sales.Refund Transactions",
+              "nativeQueryRef": "Refunded"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Fact_Sales"
+                  }
+                },
+                "Property": "Failed Attempts"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
       }
     },
-    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "background": [
         {
@@ -108,7 +130,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#10B981'"
+                      "Value": "'#F59E0B'"
                     }
                   }
                 }
@@ -191,7 +213,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Transfer Detail by Machine'"
+                  "Value": "'Failed and Refund Transactions by Machine Model'"
                 }
               }
             },
@@ -252,7 +274,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#10B981'"
+                      "Value": "'#F59E0B'"
                     }
                   }
                 }
@@ -275,6 +297,7 @@
           }
         }
       ]
-    }
+    },
+    "drillFilterOtherVisuals": true
   }
 }

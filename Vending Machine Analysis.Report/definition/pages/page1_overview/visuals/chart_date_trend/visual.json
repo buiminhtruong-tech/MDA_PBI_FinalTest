@@ -5,8 +5,8 @@
     "x": 20,
     "y": 232,
     "height": 473,
-    "width": 780,
-    "tabOrder": 2
+    "width": 760,
+    "tabOrder": 10
   },
   "visual": {
     "visualType": "lineChart",
@@ -26,7 +26,7 @@
                 }
               },
               "queryRef": "Dim_Date.FullDate",
-              "nativeQueryRef": "FullDate",
+              "nativeQueryRef": "Date",
               "active": true
             }
           ]
@@ -45,7 +45,21 @@
                 }
               },
               "queryRef": "Fact_Sales.Successful Sales Value",
-              "nativeQueryRef": "Successful Sales Value"
+              "nativeQueryRef": "Revenue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Sales"
+                    }
+                  },
+                  "Property": "Value at Risk"
+                }
+              },
+              "queryRef": "Fact_Sales.Value at Risk",
+              "nativeQueryRef": "Value at Risk"
             }
           ]
         }
@@ -199,7 +213,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Revenue Trend by Date'"
+                  "Value": "'Revenue and Value at Risk Trend'"
                 }
               }
             },

@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "tbl_perf",
   "position": {
-    "x": 20,
+    "x": 460,
     "y": 232,
-    "width": 1240,
     "height": 473,
-    "tabOrder": 3
+    "width": 800,
+    "tabOrder": 11
   },
   "visual": {
     "visualType": "tableEx",
@@ -26,7 +26,23 @@
                 }
               },
               "queryRef": "Dim_Machine.MachineCode",
-              "nativeQueryRef": "MachineCode"
+              "nativeQueryRef": "Machine",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_Machine"
+                    }
+                  },
+                  "Property": "ParentDistrict"
+                }
+              },
+              "queryRef": "Dim_Machine.ParentDistrict",
+              "nativeQueryRef": "District",
+              "active": true
             },
             {
               "field": {
@@ -40,7 +56,8 @@
                 }
               },
               "queryRef": "Dim_Machine.LocationType",
-              "nativeQueryRef": "LocationType"
+              "nativeQueryRef": "Location Type",
+              "active": true
             },
             {
               "field": {
@@ -54,7 +71,8 @@
                 }
               },
               "queryRef": "Dim_Machine.MachineModelName",
-              "nativeQueryRef": "MachineModelName"
+              "nativeQueryRef": "Model",
+              "active": true
             },
             {
               "field": {
@@ -68,13 +86,88 @@
                 }
               },
               "queryRef": "Fact_Sales.Successful Sales Value",
-              "nativeQueryRef": "Successful Sales Value"
+              "nativeQueryRef": "Revenue",
+              "active": true
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Sales"
+                    }
+                  },
+                  "Property": "Total Sales Rows"
+                }
+              },
+              "queryRef": "Fact_Sales.Total Sales Rows",
+              "nativeQueryRef": "Attempts",
+              "active": true
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Sales"
+                    }
+                  },
+                  "Property": "Overall Success Rate"
+                }
+              },
+              "queryRef": "Fact_Sales.Overall Success Rate",
+              "nativeQueryRef": "Success Rate",
+              "active": true
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Sales"
+                    }
+                  },
+                  "Property": "Total Transfer Count"
+                }
+              },
+              "queryRef": "Fact_Sales.Total Transfer Count",
+              "nativeQueryRef": "Refills",
+              "active": true
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Sales"
+                    }
+                  },
+                  "Property": "Revenue per Refill"
+                }
+              },
+              "queryRef": "Fact_Sales.Revenue per Refill",
+              "nativeQueryRef": "Revenue / Refill",
+              "active": true
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Sales"
+                    }
+                  },
+                  "Property": "Machine Action"
+                }
+              },
+              "queryRef": "Fact_Sales.Machine Action",
+              "nativeQueryRef": "Recommended Action",
+              "active": true
             }
           ]
         }
       }
     },
-    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "background": [
         {
@@ -205,7 +298,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Machine & Location Performance Detail'"
+                  "Value": "'Machine and Location Performance Detail'"
                 }
               }
             },
@@ -289,6 +382,7 @@
           }
         }
       ]
-    }
+    },
+    "drillFilterOtherVisuals": true
   }
 }

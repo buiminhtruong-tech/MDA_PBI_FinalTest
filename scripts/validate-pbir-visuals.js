@@ -23,9 +23,27 @@ const allowedVisualTypes = new Set([
   "slicer",
 ]);
 
+const titleRequiredVisualTypes = new Set([
+  "tableEx",
+  "lineChart",
+  "clusteredBarChart",
+  "clusteredColumnChart",
+  "donutChart",
+]);
+
+const requiredSlicers = [
+  { label: "Year", key: "Dim_Date.Year", syncGroup: "SkillsHubYearSync" },
+  { label: "District", key: "Dim_Location.District", syncGroup: "SkillsHubDistrictSync" },
+  { label: "Location Type", key: "Dim_Machine.LocationType", syncGroup: "SkillsHubLocationTypeSync" },
+  { label: "Product Category", key: "Dim_Product.ProductCategory", syncGroup: "SkillsHubProductCategorySync" },
+  { label: "Machine Status", key: "Dim_Machine.MachineStatus", syncGroup: "SkillsHubMachineStatusSync" },
+];
+
 const errors = [];
 const warnings = [];
 const observedVisualSchemaVersions = new Set();
+const measureExpressionsByKey = new Map();
+const measureExpressionsByName = new Map();
 
 function readJson(file) {
   try {
@@ -46,8 +64,58 @@ function walkFiles(dir, predicate, out = []) {
   return out;
 }
 
+function registerMeasureExpression(tableName, measureName, expression) {
+  if (!measureName) return;
+  const key = `${tableName}.${measureName}`;
+  const measureEntry = { tableName, measureName, key, expression };
+  measureExpressionsByKey.set(key, measureEntry);
+  const byName = measureExpressionsByName.get(measureName) || [];
+  byName.push(measureEntry);
+  measureExpressionsByName.set(measureName, byName);
+}
+
+function parseMeasureExpressions(text, tableName, file) {
+  const lines = text.split(/\r?\n/);
+  for (let index = 0; index < lines.length; index++) {
+    const line = lines[index];
+    const match = line.match(/^(\s*)measure\s+(?:'((?:''|[^'])+)'|([^=\r\n]+?))\s*=\s*(.*)$/);
+    if (!match) continue;
+
+    const indent = match[1];
+    const measureName = (match[2] || match[3] || "").trim().replace(/''/g, "'");
+    let expression = (match[4] || "").trim();
+    if (!measureName) continue;
+
+    const sameLineVarCount = (expression.match(/\bVAR\b/gi) || []).length;
+    if (sameLineVarCount > 1) {
+      errors.push(`${file}: measure ${measureName} has multiple VAR statements on one line; use a multi-line TMDL expression`);
+    }
+
+    if (!expression) {
+      const expressionIndent = `${indent}\t\t`;
+      const expressionLines = [];
+      for (let expressionIndex = index + 1; expressionIndex < lines.length; expressionIndex++) {
+        const expressionLine = lines[expressionIndex];
+        if (expressionLine.trim() === "") {
+          expressionLines.push("");
+          index = expressionIndex;
+          continue;
+        }
+        if (!expressionLine.startsWith(expressionIndent)) break;
+        expressionLines.push(expressionLine.slice(expressionIndent.length));
+        index = expressionIndex;
+      }
+      expression = expressionLines.join("\n").trim();
+    }
+
+    registerMeasureExpression(tableName, measureName, expression);
+  }
+}
+
 function parseModelFields() {
   const model = new Map();
+  measureExpressionsByKey.clear();
+  measureExpressionsByName.clear();
   if (!fs.existsSync(tablesRoot)) {
     errors.push(`Missing semantic model tables folder: ${tablesRoot}`);
     return model;
@@ -63,6 +131,8 @@ function parseModelFields() {
     for (const match of text.matchAll(/^\s+(?:column|measure)\s+'?([^'\r\n=]+)'?/gm)) {
       fields.add(match[1].trim());
     }
+
+    parseMeasureExpressions(text, tableName, fullPath);
     model.set(tableName, fields);
   }
 
@@ -107,6 +177,9 @@ function validateQueryState(queryState, visualType, file) {
       if (!projection.field) errors.push(`${file}: projection in ${role} missing field`);
       if (!projection.queryRef) errors.push(`${file}: projection in ${role} missing queryRef`);
       if (!projection.nativeQueryRef) warnings.push(`${file}: projection ${projection.queryRef || role} missing nativeQueryRef`);
+      if (projection.active === false) {
+        errors.push(`${file}: projection ${projection.queryRef || role} is inactive; remove active:false or set active:true`);
+      }
     }
   }
 
@@ -119,32 +192,71 @@ function validateQueryState(queryState, visualType, file) {
 }
 
 function collectRoleEntities(queryState) {
-  const roleEntities = [];
+  const roleFacts = [];
   for (const [role, roleState] of Object.entries(queryState || {})) {
     if (!roleState || !Array.isArray(roleState.projections)) continue;
-    const entities = new Set();
+    const facts = new Set();
     for (const projection of roleState.projections) {
-      const field = projection.field || {};
-      const entity =
-        field.Column?.Expression?.SourceRef?.Entity ||
-        field.Measure?.Expression?.SourceRef?.Entity;
-      if (entity) entities.add(entity);
+      for (const fact of factTablesForField(projection.field || {})) facts.add(fact);
     }
-    roleEntities.push({ role, entities: [...entities] });
+    roleFacts.push({ role, facts: [...facts] });
   }
-  return roleEntities;
+  return roleFacts;
+}
+
+function factTablesForField(field) {
+  const facts = new Set();
+  const columnEntity = field.Column?.Expression?.SourceRef?.Entity;
+  if (columnEntity?.startsWith("Fact_")) facts.add(columnEntity);
+
+  const measureEntity = field.Measure?.Expression?.SourceRef?.Entity;
+  const measureName = field.Measure?.Property;
+  if (measureEntity && measureName) {
+    for (const fact of factTablesForMeasure(measureEntity, measureName)) facts.add(fact);
+  }
+
+  return facts;
+}
+
+function factTablesForMeasure(entity, measureName, seen = new Set()) {
+  const facts = new Set();
+  const direct = measureExpressionsByKey.get(`${entity}.${measureName}`);
+  const candidates = direct ? [direct] : measureExpressionsByName.get(measureName) || [];
+
+  if (candidates.length === 0 && entity?.startsWith("Fact_")) {
+    facts.add(entity);
+    return facts;
+  }
+
+  for (const candidate of candidates) {
+    if (seen.has(candidate.key)) continue;
+    seen.add(candidate.key);
+
+    for (const match of candidate.expression.matchAll(/\bFact_[A-Za-z0-9_]+\b/g)) {
+      facts.add(match[0]);
+    }
+
+    for (const match of candidate.expression.matchAll(/\[([^\]]+)\]/g)) {
+      const previousChar = match.index > 0 ? candidate.expression[match.index - 1] : "";
+      if (previousChar === "'" || /[A-Za-z0-9_]/.test(previousChar)) continue;
+      const referencedMeasure = match[1].trim();
+      for (const fact of factTablesForMeasure(candidate.tableName, referencedMeasure, seen)) {
+        facts.add(fact);
+      }
+    }
+  }
+
+  return facts;
 }
 
 function validateFactMix(queryState, file) {
   const roles = collectRoleEntities(queryState);
   const categoryEntities = roles
     .filter((role) => ["Category", "Values"].includes(role.role))
-    .flatMap((role) => role.entities)
-    .filter((entity) => entity.startsWith("Fact_"));
+    .flatMap((role) => role.facts);
   const measureEntities = roles
     .filter((role) => ["Y", "Data"].includes(role.role))
-    .flatMap((role) => role.entities)
-    .filter((entity) => entity.startsWith("Fact_"));
+    .flatMap((role) => role.facts);
 
   for (const categoryEntity of categoryEntities) {
     for (const measureEntity of measureEntities) {
@@ -155,6 +267,52 @@ function validateFactMix(queryState, file) {
       }
     }
   }
+}
+
+function projectionFieldKey(projection) {
+  const column = projection.field?.Column;
+  if (column) return `${column.Expression?.SourceRef?.Entity}.${column.Property}`;
+  const measure = projection.field?.Measure;
+  if (measure) return `${measure.Expression?.SourceRef?.Entity}.${measure.Property}`;
+  return null;
+}
+
+function validateRequiredSlicers(visualFiles, pageFolder) {
+  const slicersByKey = new Map();
+  for (const visualFile of visualFiles) {
+    const visual = readJson(visualFile);
+    if (visual?.visual?.visualType !== "slicer") continue;
+    for (const roleState of Object.values(visual.visual.query?.queryState || {})) {
+      for (const projection of roleState?.projections || []) {
+        const key = projectionFieldKey(projection);
+        if (key) slicersByKey.set(key, visual.visual.syncGroup?.groupName);
+      }
+    }
+  }
+
+  for (const slicer of requiredSlicers) {
+    if (!slicersByKey.has(slicer.key)) {
+      errors.push(`${pageFolder}: missing required slicer ${slicer.label} (${slicer.key})`);
+      continue;
+    }
+    const syncGroup = slicersByKey.get(slicer.key);
+    if (syncGroup !== slicer.syncGroup) {
+      errors.push(`${pageFolder}: slicer ${slicer.label} should use syncGroup ${slicer.syncGroup}, found ${syncGroup || "<missing>"}`);
+    }
+  }
+}
+
+function literalValue(value) {
+  const literal = value?.expr?.Literal?.Value;
+  if (typeof literal !== "string") return literal;
+  return literal.replace(/^'|'$/g, "").trim();
+}
+
+function hasVisibleTitle(visualConfig) {
+  const title = visualConfig.visualContainerObjects?.title?.[0]?.properties;
+  if (!title) return false;
+  const show = literalValue(title.show);
+  return (show === true || show === "true") && Boolean(literalValue(title.text));
 }
 
 function validateVisual(file, page) {
@@ -205,6 +363,9 @@ function validateVisual(file, page) {
 
   if (!allowedVisualTypes.has(visualConfig.visualType)) {
     errors.push(`${file}: unsupported or legacy visualType ${visualConfig.visualType}`);
+  }
+  if (titleRequiredVisualTypes.has(visualConfig.visualType) && !hasVisibleTitle(visualConfig)) {
+    errors.push(`${file}: ${visualConfig.visualType} must have visualContainerObjects.title shown with non-empty text`);
   }
 
   validateQueryState(visualConfig.query?.queryState, visualConfig.visualType, file);
@@ -282,6 +443,7 @@ function validateProject() {
 
     const pageWidth = entry.page.width || 1280;
     const pageHeight = entry.page.height || 720;
+    validateRequiredSlicers(visualFiles, entry.folder);
     for (const visualFile of visualFiles) {
       validateVisual(visualFile, { width: pageWidth, height: pageHeight });
       const json = readJson(visualFile);

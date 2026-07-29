@@ -5,8 +5,8 @@
     "x": 20,
     "y": 232,
     "height": 473,
-    "width": 1240,
-    "tabOrder": 2
+    "width": 760,
+    "tabOrder": 10
   },
   "visual": {
     "visualType": "lineChart",
@@ -26,7 +26,7 @@
                 }
               },
               "queryRef": "Dim_Date.FullDate",
-              "nativeQueryRef": "FullDate",
+              "nativeQueryRef": "Date",
               "active": true
             }
           ]
@@ -45,7 +45,21 @@
                 }
               },
               "queryRef": "Fact_Sales.Overall Success Rate",
-              "nativeQueryRef": "Overall Success Rate"
+              "nativeQueryRef": "Success Rate"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Sales"
+                    }
+                  },
+                  "Property": "Failed Rate"
+                }
+              },
+              "queryRef": "Fact_Sales.Failed Rate",
+              "nativeQueryRef": "Failed Rate"
             }
           ]
         }
@@ -116,7 +130,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#F59E0B'"
+                      "Value": "'#D97706'"
                     }
                   }
                 }
@@ -199,7 +213,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Success Rate Trend by Date'"
+                  "Value": "'Success and Failure Rate Trend'"
                 }
               }
             },

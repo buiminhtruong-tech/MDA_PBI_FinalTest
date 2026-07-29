@@ -1,12 +1,12 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
-  "name": "c4",
+  "name": "c5",
   "position": {
-    "x": 644,
+    "x": 1012,
     "y": 116,
-    "width": 200,
+    "width": 232,
     "height": 98,
-    "tabOrder": 4
+    "tabOrder": 5
   },
   "visual": {
     "visualType": "cardVisual",
@@ -22,11 +22,11 @@
                       "Entity": "Fact_Sales"
                     }
                   },
-                  "Property": "Failed Rate"
+                  "Property": "Monitor Machines"
                 }
               },
-              "queryRef": "Fact_Sales.Failed Rate",
-              "nativeQueryRef": "Failed Rate"
+              "queryRef": "Fact_Sales.Monitor Machines",
+              "nativeQueryRef": "Monitor Machines"
             }
           ]
         }
@@ -80,7 +80,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#F59E0B'"
+                      "Value": "'#64748B'"
                     }
                   }
                 }
@@ -209,7 +209,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Failure Rate'"
+                  "Value": "'Monitor'"
                 }
               }
             },

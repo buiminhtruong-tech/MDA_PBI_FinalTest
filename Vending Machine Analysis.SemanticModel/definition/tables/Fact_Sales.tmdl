@@ -3,173 +3,340 @@ table Fact_Sales
 
 	measure 'Total Sales Rows' = COUNTROWS(Fact_Sales)
 		formatString: #,0
-		lineageTag: 938c9624-2b0e-49fd-aa4a-9efac1e0e1eb
+		lineageTag: ca71259e-3e0f-44ee-9cc5-aa5afcd230b7
 
 	measure 'Successful Transactions' = CALCULATE([Total Sales Rows], Fact_Sales[TransactionOutcomeGroup] = "Success")
 		formatString: #,0
-		lineageTag: bdff2578-0256-432a-bf1e-4c83dbe1b423
+		lineageTag: d0b9cf58-a3b9-4ee6-bba6-969a86ad6833
 
 	measure 'Failed Attempts' = CALCULATE([Total Sales Rows], Fact_Sales[TransactionOutcomeGroup] = "Failed_or_Cancelled")
 		formatString: #,0
-		lineageTag: e3f6c2a2-26a9-45e8-95a4-33d42950292d
+		lineageTag: d0f474ac-9a3d-482b-8dde-525d962ab85a
 
 	measure 'Refund Transactions' = CALCULATE([Total Sales Rows], Fact_Sales[TransactionOutcomeGroup] = "Refunded")
 		formatString: #,0
-		lineageTag: a9e3ec67-d99f-405b-a8ec-2b76b6a055db
+		lineageTag: b972d533-27a3-4121-af6e-d91737b7aae6
 
 	measure 'Overall Success Rate' = DIVIDE([Successful Transactions], [Total Sales Rows], 0)
 		formatString: 0.00%
-		lineageTag: 5a8fb34e-b12b-4e07-a06d-ea4ac616ecc0
+		lineageTag: 832c7218-d0f1-4de5-8c7f-4d057754c3c2
 
 	measure 'Success Rate Pre 29/04' = CALCULATE([Overall Success Rate], Dim_Date[FullDate] < DATE(2020,4,29))
 		formatString: 0.00%
-		lineageTag: 4698578d-d5b2-4e51-b067-3ad3a99ccdce
+		lineageTag: 12026d01-15b1-4b9c-96e1-8fea8051c072
 
 	measure 'Success Rate Post 29/04' = CALCULATE([Overall Success Rate], Dim_Date[FullDate] >= DATE(2020,4,29))
 		formatString: 0.00%
-		lineageTag: 183624a6-f588-4389-984b-28d1485c74cd
+		lineageTag: 7113cfc2-1eae-4660-8dba-d42cb91bec17
 
 	measure 'Successful Sales Value' = CALCULATE(SUM(Fact_Sales[TotalPrice]), Fact_Sales[TransactionOutcomeGroup] = "Success")
 		formatString: #,0 ₫
-		lineageTag: 888435fd-7955-45b9-9430-f1dd28eb6902
+		lineageTag: 8b1454d1-450d-4b8a-bff7-70dd50d3bc1a
 
 	measure 'Value at Risk' = CALCULATE(SUM(Fact_Sales[TotalPrice]), Fact_Sales[TransactionOutcomeGroup] = "Failed_or_Cancelled")
 		formatString: #,0 ₫
-		lineageTag: 3bf9f566-6ac7-40c1-b1aa-bb44b34be41e
+		lineageTag: c8f44dba-ff8f-41ac-beec-efaf13812276
 
 	measure 'Total Refund Amount' = SUM(Fact_Sales[RefundedAmount])
 		formatString: #,0 ₫
-		lineageTag: ad13f6d4-3996-495a-8049-76ba32317dbc
+		lineageTag: 38732156-5f33-48a4-85e7-7374e9edf854
 
 	measure 'Verified Refund Amount' = CALCULATE(SUM(Fact_Sales[RefundedAmount]), Fact_Sales[TransactionOutcomeGroup] = "Refunded")
 		formatString: #,0 ₫
-		lineageTag: 40f47bb2-c69e-4cbd-901c-a5c867257846
+		lineageTag: bdbfd09e-94f2-4a6f-8b45-085c8231dc2d
 
 	measure 'DQ Refund Exceptions' = COUNTROWS(Sales_DQ_Exceptions)
 		formatString: #,0
-		lineageTag: 33422437-e0b6-4587-b68a-1ab74b774bb9
+		lineageTag: b9b2ba97-834d-4001-bbdf-5acdf583595d
 
 	measure 'Active Machines Count' = CALCULATE(COUNTROWS(Dim_Machine), Dim_Machine[MachineStatus] = "ON")
 		formatString: #,0
-		lineageTag: 3d96036b-ca6c-4508-9b07-838f9c1563ae
+		lineageTag: 3631ced1-3236-4acf-86b6-5e3f2c1dca83
 
-	measure 'Active Fleet Rate' = DIVIDE([Active Machines Count], COUNTROWS(Dim_Machine), 0)
+	measure 'Active Fleet Rate' = DIVIDE([Active Machines Count], [Total Machines Count], 0)
 		formatString: 0.00%
-		lineageTag: c19036a7-e72c-459d-a0ad-f4c7d7e1d1f6
+		lineageTag: 9a844e6c-82eb-471d-9fc1-8bd5dc0ecb49
 
 	measure 'Total Transfer Value' = SUM(Fact_MachineTransfer[TotalAmount])
 		formatString: #,0 ₫
-		lineageTag: 1acbbad9-c356-4747-bf2f-0ac2a7a5874f
+		lineageTag: d93edd7c-bad3-4355-a9ea-d9d554ea71d6
 
 	measure 'Total Transfer Count' = COUNTROWS(Fact_MachineTransfer)
 		formatString: #,0
-		lineageTag: 9343d5b7-6dd4-48c0-ad87-4264594b9458
+		lineageTag: 5052a79b-8371-4648-9026-0fa89acc06da
 
 	measure 'Refill to Sales Ratio' = DIVIDE([Total Transfer Value], [Successful Sales Value], 0)
 		formatString: 0.00%
-		lineageTag: d98fdd8a-02cc-4590-91dd-26a98d773e91
+		lineageTag: c7eedc2f-c36a-4b41-86f5-2e7a086697c1
 
 	measure 'Total PO Count' = COUNTROWS(Fact_PurchaseOrder)
 		formatString: #,0
-		lineageTag: e7d01624-f72b-483c-8987-cadf42572302
+		lineageTag: 79993197-3ffd-4fa1-a532-6b8bfee28f21
 
 	measure 'Total Inbound Value' = SUM(Fact_InboundInventory[TotalAmount])
 		formatString: #,0 ₫
-		lineageTag: 9020a8f7-b487-4c12-89fb-ff268cb4372a
+		lineageTag: 4a14053f-78e2-4c0e-b357-64a674d5e90e
 
 	measure 'Average AOV' = DIVIDE([Successful Sales Value], [Successful Transactions], 0)
 		formatString: #,0 ₫
-		lineageTag: ff1934bc-3af1-43bd-82c0-b7ddeafb2389
+		lineageTag: cf09bcf1-9999-45ed-9592-ebb518a44b1a
 
-	measure 'Covid Lockdown Revenue' = CALCULATE([Successful Sales Value], Dim_Date[IsCovidLockdown] = TRUE)
+	measure 'Covid Lockdown Revenue' = CALCULATE([Successful Sales Value], Dim_Date[IsCovidLockdown] = TRUE())
 		formatString: #,0 ₫
-		lineageTag: 17d44f32-5d3d-4441-a082-28b869539da8
+		lineageTag: 35799d05-1651-443c-8593-a2809b437c6a
 
-	measure 'Top 20% Machine Revenue Share' = CALCULATE([Successful Sales Value], TOPN(66, Dim_Machine, [Successful Sales Value], DESC))
-		formatString: #,0 ₫
-		lineageTag: 1915e0b2-e1df-4448-bf68-e6d4fcbc9c49
-
-	measure 'PO Value' = SUMX(Fact_PurchaseOrder, Fact_PurchaseOrder[TaxVAT] * 1.1)
-		formatString: #,0 ₫
-		lineageTag: 7c36f91d-5198-4bec-90e7-a905526c8dd8
-
-	measure 'Data Quality Integrity Index' = 1 - DIVIDE([DQ Refund Exceptions], [Total Sales Rows], 0)
+	measure 'Top 20% Machine Revenue Share' =
+			VAR MachineCount =
+				COUNTROWS(ALLSELECTED(Dim_Machine[MachineCode]))
+			VAR TopMachineCount =
+				MAX(1, ROUNDUP(MachineCount * 0.2, 0))
+			VAR TopRevenue =
+				CALCULATE(
+					[Successful Sales Value],
+					TOPN(
+						TopMachineCount,
+						ALLSELECTED(Dim_Machine[MachineCode]),
+						[Successful Sales Value], DESC,
+						Dim_Machine[MachineCode], ASC
+					)
+				)
+			VAR TotalRevenue =
+				CALCULATE(
+					[Successful Sales Value],
+					ALLSELECTED(Dim_Machine[MachineCode])
+				)
+			RETURN
+				DIVIDE(TopRevenue, TotalRevenue, 0)
 		formatString: 0.00%
-		lineageTag: 478e93ef-ae04-40d1-9284-a88183b47503
+		lineageTag: 08dbae0f-6239-429d-a3dd-a0657b339471
+
+	measure 'Data Quality Integrity Index' = [Refund Data Integrity Rate]
+		formatString: 0.00%
+		lineageTag: f705250f-0a1c-4689-ab0e-b5b95351eacb
 
 	measure 'Report Title' = "SkillsHub Vietnam"
-		lineageTag: bec96d03-1f86-403c-9800-4f1b4f694e25
+		lineageTag: 1c35ecde-0dc7-4ec5-9549-4c2d1816dfcd
+
+	measure 'Failed Rate' = DIVIDE([Failed Attempts], [Total Sales Rows], 0)
+		formatString: 0.00%
+		lineageTag: 92860210-ebd2-4742-adf3-3a5c1101ae8d
+
+	measure 'Refund Rate' = DIVIDE([Refund Transactions], [Total Sales Rows], 0)
+		formatString: 0.00%
+		lineageTag: 53f04750-f6e8-4ba7-b1e1-cd9312b21908
+
+	measure 'Total Machines Count' = COUNTROWS(Dim_Machine)
+		formatString: #,0
+		lineageTag: 462f0169-4e32-4ea2-93e7-43a3ba076c60
+
+	measure 'Revenue per Refill' = DIVIDE([Successful Sales Value], [Total Transfer Count], 0)
+		formatString: #,0 ₫
+		lineageTag: 795012ed-bb68-415f-ade5-39b86727725a
+
+	measure 'Sales to Transfer Value Ratio' = DIVIDE([Successful Sales Value], [Total Transfer Value], 0)
+		formatString: 0.00%
+		lineageTag: 615734b7-8417-4499-8953-1970ff704bd6
+
+	measure 'Average PO Lead Days' =
+			AVERAGEX(
+				FILTER(
+					Fact_PurchaseOrder,
+					NOT ISBLANK(Fact_PurchaseOrder[ReceivingDateKey]) &&
+						NOT ISBLANK(Fact_PurchaseOrder[OrderDateKey])
+				),
+				VAR OrderKey =
+					Fact_PurchaseOrder[OrderDateKey]
+				VAR ReceiveKey =
+					Fact_PurchaseOrder[ReceivingDateKey]
+				VAR OrderDate =
+					DATE(
+						QUOTIENT(OrderKey, 10000),
+						QUOTIENT(MOD(OrderKey, 10000), 100),
+						MOD(OrderKey, 100)
+					)
+				VAR ReceiveDate =
+					DATE(
+						QUOTIENT(ReceiveKey, 10000),
+						QUOTIENT(MOD(ReceiveKey, 10000), 100),
+						MOD(ReceiveKey, 100)
+					)
+				RETURN
+					DATEDIFF(OrderDate, ReceiveDate, DAY)
+			)
+		formatString: 0.0
+		lineageTag: 137f0a24-69cc-4728-8f9b-1b0547ca42b8
+
+	measure 'Revenue per Active Machine' = DIVIDE([Successful Sales Value], [Active Machines Count], 0)
+		formatString: #,0 ₫
+		lineageTag: 4a8b54da-41fc-43e3-819e-702a77e5cde8
+
+	measure 'Refund Data Integrity Rate' = 1 - DIVIDE([DQ Refund Exceptions], [Total Sales Rows], 0)
+		formatString: 0.00%
+		lineageTag: dfa360f4-533c-4721-97fb-2204e3a17b3a
+
+	measure 'Machine Revenue Rank' = RANKX(ALLSELECTED(Dim_Machine[MachineCode]), [Successful Sales Value],, DESC, Dense)
+		formatString: #,0
+		lineageTag: d3ce1c9b-6d2d-438c-b494-f275d71dd9fb
+
+	measure 'Machine Action' =
+			VAR RevenueValue =
+				[Successful Sales Value]
+			VAR AttemptCount =
+				[Total Sales Rows]
+			VAR SuccessRateValue =
+				[Overall Success Rate]
+			VAR RefillCount =
+				[Total Transfer Count]
+			VAR RefillEfficiency =
+				[Revenue per Refill]
+			VAR RevenueMedian =
+				MEDIANX(
+					ALLSELECTED(Dim_Machine[MachineCode]),
+					CALCULATE([Successful Sales Value])
+				)
+			VAR AttemptsMedian =
+				MEDIANX(
+					ALLSELECTED(Dim_Machine[MachineCode]),
+					CALCULATE([Total Sales Rows])
+				)
+			VAR SuccessBenchmark =
+				CALCULATE(
+					[Overall Success Rate],
+					ALLSELECTED(Dim_Machine[MachineCode])
+				)
+			VAR EfficiencyMedian =
+				MEDIANX(
+					ALLSELECTED(Dim_Machine[MachineCode]),
+					CALCULATE([Revenue per Refill])
+				)
+			RETURN
+				SWITCH(
+					TRUE(),
+					RevenueValue >= RevenueMedian &&
+						SuccessRateValue >= SuccessBenchmark, "KEEP / SCALE",
+					AttemptCount >= AttemptsMedian &&
+						SuccessRateValue < SuccessBenchmark, "FIX",
+					AttemptCount < AttemptsMedian &&
+						SuccessRateValue >= SuccessBenchmark, "RELOCATE",
+					RevenueValue < RevenueMedian &&
+						SuccessRateValue < SuccessBenchmark &&
+						RefillCount > 0 &&
+						RefillEfficiency < EfficiencyMedian, "REVIEW / REPLACE",
+					"MONITOR"
+				)
+		lineageTag: dfc1ba63-f4ba-4d1c-8f67-c992dae02217
+
+	measure 'Machine Action Reason' =
+			VAR ActionLabel =
+				[Machine Action]
+			RETURN
+				SWITCH(
+					ActionLabel,
+					"KEEP / SCALE", "Revenue and reliability are above the selected-fleet benchmark",
+					"FIX", "Demand is material but transaction success is below benchmark",
+					"RELOCATE", "Machine works reliably but demand is below the fleet median",
+					"REVIEW / REPLACE", "Low revenue, low reliability and weak refill efficiency",
+					"Insufficient evidence; continue monitoring"
+				)
+		lineageTag: 853ed0e7-231b-4af7-94f5-862ca8482cc4
+
+	measure 'Machine Action Priority' = SWITCH([Machine Action], "FIX", 1, "REVIEW / REPLACE", 2, "RELOCATE", 3, "MONITOR", 4, "KEEP / SCALE", 5, 9)
+		formatString: 0
+		lineageTag: 869e04dc-20dd-4ff4-93d7-628b1089a3e8
+
+	measure 'Machine Action Priority Label' = SWITCH([Machine Action], "FIX", "P1 - FIX", "REVIEW / REPLACE", "P2 - REVIEW / REPLACE", "RELOCATE", "P3 - RELOCATE", "MONITOR", "P4 - MONITOR", "KEEP / SCALE", "P5 - KEEP / SCALE", "P9 - UNCLASSIFIED")
+		lineageTag: 8911760a-e0eb-42b3-8acc-f9c0fe50f061
+
+	measure 'Keep Scale Machines' = SUMX(VALUES(Dim_Machine[MachineCode]), IF([Machine Action] = "KEEP / SCALE", 1, 0))
+		formatString: #,0
+		lineageTag: 9ee45b20-4211-4295-8b12-faa4eb77fe57
+
+	measure 'Fix Machines' = SUMX(VALUES(Dim_Machine[MachineCode]), IF([Machine Action] = "FIX", 1, 0))
+		formatString: #,0
+		lineageTag: a811269d-9171-4ece-bced-107d2e817858
+
+	measure 'Relocate Machines' = SUMX(VALUES(Dim_Machine[MachineCode]), IF([Machine Action] = "RELOCATE", 1, 0))
+		formatString: #,0
+		lineageTag: 3ca11c48-2c61-4bdd-81bd-86ef3514ffb1
+
+	measure 'Review Replace Machines' = SUMX(VALUES(Dim_Machine[MachineCode]), IF([Machine Action] = "REVIEW / REPLACE", 1, 0))
+		formatString: #,0
+		lineageTag: 70b880b6-25ef-4e04-ae5d-306343e86234
+
+	measure 'Monitor Machines' = SUMX(VALUES(Dim_Machine[MachineCode]), IF([Machine Action] = "MONITOR", 1, 0))
+		formatString: #,0
+		lineageTag: d0013059-9506-427d-9c96-fd6851f2e12c
 
 	column TransactionId
 		dataType: int64
 		formatString: 0
-		lineageTag: 764960d8-0e4c-4c13-81fe-ae42c6f1b6c6
+		lineageTag: 6e5f1896-4ff9-4d16-bd1b-55adfd04b051
 		summarizeBy: count
 		sourceColumn: TransactionId
 
 	column DateKey
 		dataType: int64
 		formatString: 0
-		lineageTag: 728839f8-af03-457b-b1cd-a0519aedde37
+		lineageTag: 8f0d5c58-223d-4fc4-8b98-4413382af2a3
 		summarizeBy: none
 		sourceColumn: DateKey
 
 	column Hour
 		dataType: int64
 		formatString: 0
-		lineageTag: ccca9d76-906b-4e0f-9386-e83b4cee87dd
-		summarizeBy: sum
+		lineageTag: f58144ce-c0ae-4702-a121-9ece75035a8c
+		summarizeBy: none
 		sourceColumn: Hour
 
 	column MachineCode
 		dataType: string
-		lineageTag: aa6a84ce-eaaa-4e57-a13d-95caef935196
+		lineageTag: 391689b9-0a93-467b-9de3-b4d14a9e77e7
 		summarizeBy: none
 		sourceColumn: MachineCode
 
 	column TotalPrice
 		dataType: int64
 		formatString: 0
-		lineageTag: cd8f59ac-b8d8-49ad-a41c-fff96486a29e
+		lineageTag: 9dad5a4f-8358-43cf-9559-f401ef439692
 		summarizeBy: sum
 		sourceColumn: TotalPrice
 
 	column TransactionStatus
 		dataType: string
-		lineageTag: c38879b5-2b26-4a1a-b1fb-211c154ffe09
+		lineageTag: 5750f6ea-bbe9-448f-b7d5-9618384779c3
 		summarizeBy: none
 		sourceColumn: TransactionStatus
 
 	column RefundedQuantity
 		dataType: int64
 		formatString: 0
-		lineageTag: d5ae0592-0f37-4afd-a289-4d7080d63ed8
+		lineageTag: 999b1911-a92e-4dde-b8ca-630a8d852992
 		summarizeBy: sum
 		sourceColumn: RefundedQuantity
 
 	column RefundedAmount
 		dataType: int64
 		formatString: 0
-		lineageTag: 47883d26-01ae-4f9a-a17e-ecf56012ed94
+		lineageTag: 8cf928fe-ee35-4608-92db-00bc4c577151
 		summarizeBy: sum
 		sourceColumn: RefundedAmount
 
 	column MachinePosition
 		dataType: string
-		lineageTag: 4ff308fd-a3e2-47a1-8616-7f9e84d24ff8
+		lineageTag: a10d0083-1b0c-4c46-9c8b-625d23c799de
 		summarizeBy: none
 		sourceColumn: MachinePosition
 
 	column ProductId
 		dataType: int64
 		formatString: 0
-		lineageTag: a4adce22-021d-4b46-8651-5715b1909346
+		lineageTag: eb84688a-3a05-4b55-9daa-7409dccc10f1
 		summarizeBy: none
 		sourceColumn: ProductId
 
 	column TransactionOutcomeGroup
 		dataType: string
-		lineageTag: 14d03af1-03ff-4e97-a305-8fbc8f8bca23
+		lineageTag: 0acd8dbe-94a6-4dc2-9bf4-ccf475cf6a1f
 		summarizeBy: none
 		sourceColumn: TransactionOutcomeGroup
 

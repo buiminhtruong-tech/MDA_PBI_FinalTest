@@ -1,18 +1,37 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
-  "name": "c4",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "chart_model_perf",
   "position": {
-    "x": 644,
-    "y": 116,
-    "width": 200,
-    "height": 98,
-    "tabOrder": 4
+    "x": 20,
+    "y": 232,
+    "height": 473,
+    "width": 420,
+    "tabOrder": 10
   },
   "visual": {
-    "visualType": "cardVisual",
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
-        "Data": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_Machine"
+                    }
+                  },
+                  "Property": "MachineModelName"
+                }
+              },
+              "queryRef": "Dim_Machine.MachineModelName",
+              "nativeQueryRef": "Machine Model",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
           "projections": [
             {
               "field": {
@@ -22,17 +41,34 @@
                       "Entity": "Fact_Sales"
                     }
                   },
-                  "Property": "Failed Rate"
+                  "Property": "Successful Sales Value"
                 }
               },
-              "queryRef": "Fact_Sales.Failed Rate",
-              "nativeQueryRef": "Failed Rate"
+              "queryRef": "Fact_Sales.Successful Sales Value",
+              "nativeQueryRef": "Revenue"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Fact_Sales"
+                  }
+                },
+                "Property": "Successful Sales Value"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
       }
     },
-    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "background": [
         {
@@ -80,7 +116,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#F59E0B'"
+                      "Value": "'#0284C7'"
                     }
                   }
                 }
@@ -149,19 +185,21 @@
             }
           }
         }
-      ]
-    },
-    "objects": {
-      "value": [
+      ],
+      "title": [
         {
-          "selector": {
-            "id": "default"
-          },
           "properties": {
-            "fontSize": {
+            "show": {
               "expr": {
                 "Literal": {
-                  "Value": "20D"
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Revenue by Machine Model'"
                 }
               }
             },
@@ -173,6 +211,13 @@
                       "Value": "'#0F172A'"
                     }
                   }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
                 }
               }
             },
@@ -193,11 +238,8 @@
           }
         }
       ],
-      "label": [
+      "subTitle": [
         {
-          "selector": {
-            "id": "default"
-          },
           "properties": {
             "show": {
               "expr": {
@@ -209,14 +251,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Failure Rate'"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9D"
+                  "Value": "'SkillsHub Vietnam'"
                 }
               }
             },
@@ -225,9 +260,16 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#64748B'"
+                      "Value": "'#0284C7'"
                     }
                   }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
                 }
               }
             },
@@ -240,23 +282,8 @@
             }
           }
         }
-      ],
-      "outline": [
-        {
-          "selector": {
-            "id": "default"
-          },
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
       ]
-    }
+    },
+    "drillFilterOtherVisuals": true
   }
 }

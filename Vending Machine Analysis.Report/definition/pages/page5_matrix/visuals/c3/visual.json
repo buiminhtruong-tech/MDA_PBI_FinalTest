@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "c3",
   "position": {
-    "x": 620,
+    "x": 516,
     "y": 116,
-    "width": 280,
+    "width": 232,
     "height": 98,
-    "tabOrder": 1
+    "tabOrder": 3
   },
   "visual": {
     "visualType": "cardVisual",
@@ -22,11 +22,11 @@
                       "Entity": "Fact_Sales"
                     }
                   },
-                  "Property": "Overall Success Rate"
+                  "Property": "Review Replace Machines"
                 }
               },
-              "queryRef": "Fact_Sales.Overall Success Rate",
-              "nativeQueryRef": "Overall Success Rate"
+              "queryRef": "Fact_Sales.Review Replace Machines",
+              "nativeQueryRef": "Review Replace Machines"
             }
           ]
         }
@@ -80,7 +80,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#059669'"
+                      "Value": "'#F59E0B'"
                     }
                   }
                 }
@@ -161,7 +161,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "22D"
+                  "Value": "20D"
                 }
               }
             },
@@ -209,14 +209,14 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Overall Success Rate'"
+                  "Value": "'Review / Replace — P2'"
                 }
               }
             },
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "9D"
                 }
               }
             },
@@ -251,68 +251,6 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "padding": [
-        {
-          "selector": {
-            "id": "default"
-          },
-          "properties": {
-            "paddingIndividual": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "paddingUniform": {
-              "expr": {
-                "Literal": {
-                  "Value": "0D"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "layout": [
-        {
-          "selector": {
-            "id": "default"
-          },
-          "properties": {
-            "paddingIndividual": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "paddingUniform": {
-              "expr": {
-                "Literal": {
-                  "Value": "0D"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "spacing": [
-        {
-          "selector": {
-            "id": "default"
-          },
-          "properties": {
-            "verticalSpacing": {
-              "expr": {
-                "Literal": {
-                  "Value": "0D"
                 }
               }
             }

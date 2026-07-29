@@ -22,11 +22,11 @@
                       "Entity": "Fact_Sales"
                     }
                   },
-                  "Property": "Failed Rate"
+                  "Property": "Total PO Count"
                 }
               },
-              "queryRef": "Fact_Sales.Failed Rate",
-              "nativeQueryRef": "Failed Rate"
+              "queryRef": "Fact_Sales.Total PO Count",
+              "nativeQueryRef": "Total PO Count"
             }
           ]
         }
@@ -80,7 +80,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#F59E0B'"
+                      "Value": "'#7C3AED'"
                     }
                   }
                 }
@@ -209,7 +209,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Failure Rate'"
+                  "Value": "'Purchase Orders'"
                 }
               }
             },
