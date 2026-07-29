@@ -5,7 +5,7 @@
     "x": 20,
     "y": 116,
     "width": 232,
-    "height": 98,
+    "height": 76,
     "tabOrder": 1
   },
   "visual": {
@@ -22,11 +22,11 @@
                       "Entity": "Fact_Sales"
                     }
                   },
-                  "Property": "Keep Scale Machines"
+                  "Property": "Fix Machines"
                 }
               },
-              "queryRef": "Fact_Sales.Keep Scale Machines",
-              "nativeQueryRef": "Keep Scale Machines"
+              "queryRef": "Fact_Sales.Fix Machines",
+              "nativeQueryRef": "Fix Machines"
             }
           ]
         }
@@ -80,7 +80,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#10B981'"
+                      "Value": "'#EF4444'"
                     }
                   }
                 }
@@ -109,14 +109,14 @@
             "top": {
               "expr": {
                 "Literal": {
-                  "Value": "8D"
+                  "Value": "6D"
                 }
               }
             },
             "bottom": {
               "expr": {
                 "Literal": {
-                  "Value": "8D"
+                  "Value": "6D"
                 }
               }
             },
@@ -161,7 +161,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "20D"
+                  "Value": "18D"
                 }
               }
             },
@@ -209,7 +209,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Keep / Scale'"
+                  "Value": "'P1 Fix Reliability'"
                 }
               }
             },

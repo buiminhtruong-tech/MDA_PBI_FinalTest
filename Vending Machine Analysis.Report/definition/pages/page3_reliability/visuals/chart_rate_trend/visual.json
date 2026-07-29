@@ -45,7 +45,8 @@
                 }
               },
               "queryRef": "Fact_Sales.Overall Success Rate",
-              "nativeQueryRef": "Success Rate"
+              "nativeQueryRef": "Success Rate",
+              "active": true
             },
             {
               "field": {
@@ -59,7 +60,23 @@
                 }
               },
               "queryRef": "Fact_Sales.Failed Rate",
-              "nativeQueryRef": "Failed Rate"
+              "nativeQueryRef": "Failed Rate",
+              "active": true
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Sales"
+                    }
+                  },
+                  "Property": "Failure Watch Threshold"
+                }
+              },
+              "queryRef": "Fact_Sales.Failure Watch Threshold",
+              "nativeQueryRef": "15% Watch Line",
+              "active": true
             }
           ]
         }
@@ -213,7 +230,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Success and Failure Rate Trend'"
+                  "Value": "'Reliability Trend vs Watch Line'"
                 }
               }
             },
@@ -265,7 +282,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'SkillsHub Vietnam'"
+                  "Value": "'Decision cue: failure rate above 15% needs investigation'"
                 }
               }
             },

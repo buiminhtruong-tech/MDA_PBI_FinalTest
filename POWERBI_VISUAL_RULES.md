@@ -90,6 +90,9 @@ Vending Machine Analysis.Report/definition/pages/<pageFolder>/visuals/<visualNam
   - border/grid `#CBD5E1` hoac `#E2E8F0`
   - accents theo taxonomy: cyan, emerald, amber, purple
 - Title cua chart phai mo ta dung metric va grain, vi du `Inbound Inventory Value by Supplier`, `Transfer Value Trend by Date`.
+- Moi analytical chart/table nen co subtitle dang decision cue hoac data note, khong lap lai brand name khi page title da co `SkillsHub Vietnam`.
+- Neu visual dung benchmark/threshold de ra quyet dinh, phai hien ro threshold trong title/subtitle hoac bang measure rieng. Neu threshold la gia dinh van hanh, ghi trong `DASHBOARD_DATA_LIMITATIONS.md`.
+- Trang prescriptive/action phai dua priority/action KPI len truoc detail table, va detail table phai sort theo priority truoc roi moi den impact/revenue.
 
 ## 7. Required Validation
 

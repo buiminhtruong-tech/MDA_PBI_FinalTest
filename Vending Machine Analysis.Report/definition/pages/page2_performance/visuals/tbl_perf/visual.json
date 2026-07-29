@@ -166,6 +166,24 @@
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Fact_Sales"
+                  }
+                },
+                "Property": "Successful Sales Value"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
       }
     },
     "visualContainerObjects": {
@@ -350,7 +368,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'SkillsHub Vietnam'"
+                  "Value": "'Decision cue: inspect machines sorted by revenue and recommended action'"
                 }
               }
             },

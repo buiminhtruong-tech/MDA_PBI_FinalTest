@@ -1,0 +1,63 @@
+table Dim_ActionGuide
+	lineageTag: 21d62189-94a4-4e10-b961-90d4cf8a1d76
+
+	column PriorityOrder
+		dataType: int64
+		formatString: 0
+		lineageTag: 3f6f178f-d6e7-4a3f-880e-f71ac704143d
+		summarizeBy: none
+		sourceColumn: PriorityOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column Priority
+		dataType: string
+		lineageTag: 6e97b3fb-a754-4b59-8a88-45136a3672c8
+		summarizeBy: none
+		sourceColumn: Priority
+
+		annotation SummarizationSetBy = Automatic
+
+	column Action
+		dataType: string
+		lineageTag: 03897e01-6f8e-4dfd-9e75-8959787df5a7
+		summarizeBy: none
+		sourceColumn: Action
+
+		annotation SummarizationSetBy = Automatic
+
+	column Trigger
+		dataType: string
+		lineageTag: 26e64151-311b-4277-8fa9-ad824055f65b
+		summarizeBy: none
+		sourceColumn: Trigger
+
+		annotation SummarizationSetBy = Automatic
+
+	column Decision
+		dataType: string
+		lineageTag: 424307c9-9d4e-42f5-a3bd-c9dd07dcc652
+		summarizeBy: none
+		sourceColumn: Decision
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_ActionGuide = m
+		mode: import
+		source =
+				let
+				    Source = #table(
+				        type table [PriorityOrder = Int64.Type, Priority = text, Action = text, Trigger = text, Decision = text],
+				        {
+				            {1, "P1", "Fix reliability", "High demand; success below benchmark", "Repair payment, device, or connectivity"},
+				            {2, "P2", "Review / replace", "Low revenue; low reliability; weak refills", "Inspect asset before replacement"},
+				            {3, "P3", "Relocate", "Reliable but demand below median", "Move to higher-traffic location"},
+				            {4, "P4", "Monitor", "Evidence is still thin", "Track until volume or history improves"},
+				            {5, "P5", "Keep / scale", "Revenue and reliability above benchmark", "Protect placement; scale nearby"}
+				        }
+				    )
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+

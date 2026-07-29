@@ -14,8 +14,11 @@ Before creating or editing visuals in this repo:
 10. Check category cardinality before building breakdown charts; one-value categories should become trend/detail/KPI visuals.
 11. Write DAX measures with multiple `VAR` statements as multi-line TMDL expressions.
 12. Ensure every chart/table visual has a visible `visualContainerObjects.title` with non-empty text.
-13. Keep common slicers on their own matching sync groups; do not reuse another slicer's sync group.
-14. Do not use `Product Category` slicers on replenishment or machine-action pages until those metrics support ProductId line-level filtering.
-15. Run `node scripts/validate-pbir-visuals.js` after every visual edit.
+13. Use chart/table subtitles as decision cues or data notes; avoid repeating the brand name when the page title already shows it.
+14. Show benchmark/threshold context in the visual when it drives interpretation, and document assumed thresholds in `DASHBOARD_DATA_LIMITATIONS.md`.
+15. Put prescriptive/action KPI cards before detail tables, then sort detail tables by priority first and impact/revenue second.
+16. Keep common slicers on their own matching sync groups; do not reuse another slicer's sync group.
+17. Do not use `Product Category` slicers on replenishment or machine-action pages until those metrics support ProductId line-level filtering.
+18. Run `node scripts/validate-pbir-visuals.js` after every visual edit.
 
 See `POWERBI_VISUAL_RULES.md` for the full project rules.

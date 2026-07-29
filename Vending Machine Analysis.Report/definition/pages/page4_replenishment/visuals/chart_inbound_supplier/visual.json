@@ -251,7 +251,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'SkillsHub Vietnam'"
+                  "Value": "'Data note: inbound-only supplier value; PO and product filters are separate'"
                 }
               }
             },

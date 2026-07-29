@@ -91,7 +91,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Operations Overview | Descriptive Analytics'"
+                  "Value": "'Operations Health | Descriptive Analytics'"
                 }
               }
             },

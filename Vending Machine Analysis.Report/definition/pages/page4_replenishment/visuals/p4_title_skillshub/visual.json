@@ -91,7 +91,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Replenishment & Supply Operations | Predictive & Prescriptive Analytics'"
+                  "Value": "'Refill & Supply | Predictive Analytics'"
                 }
               }
             },

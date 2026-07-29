@@ -1,51 +1,78 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "chart_loc_type",
+  "name": "tbl_action_guide",
   "position": {
-    "x": 800,
-    "y": 232,
-    "height": 473,
-    "width": 460,
-    "tabOrder": 11
+    "x": 20,
+    "y": 204,
+    "height": 270,
+    "width": 1240,
+    "tabOrder": 10
   },
   "visual": {
-    "visualType": "clusteredBarChart",
+    "visualType": "tableEx",
     "query": {
       "queryState": {
-        "Category": {
+        "Values": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Dim_Machine"
+                      "Entity": "Dim_ActionGuide"
                     }
                   },
-                  "Property": "LocationType"
+                  "Property": "Priority"
                 }
               },
-              "queryRef": "Dim_Machine.LocationType",
-              "nativeQueryRef": "Location Type",
+              "queryRef": "Dim_ActionGuide.Priority",
+              "nativeQueryRef": "Priority",
               "active": true
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
+            },
             {
               "field": {
-                "Measure": {
+                "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Fact_Sales"
+                      "Entity": "Dim_ActionGuide"
                     }
                   },
-                  "Property": "Successful Sales Value"
+                  "Property": "Action"
                 }
               },
-              "queryRef": "Fact_Sales.Successful Sales Value",
-              "nativeQueryRef": "Revenue"
+              "queryRef": "Dim_ActionGuide.Action",
+              "nativeQueryRef": "Recommended action",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_ActionGuide"
+                    }
+                  },
+                  "Property": "Trigger"
+                }
+              },
+              "queryRef": "Dim_ActionGuide.Trigger",
+              "nativeQueryRef": "Trigger",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_ActionGuide"
+                    }
+                  },
+                  "Property": "Decision"
+                }
+              },
+              "queryRef": "Dim_ActionGuide.Decision",
+              "nativeQueryRef": "Decision",
+              "active": true
             }
           ]
         }
@@ -54,16 +81,16 @@
         "sort": [
           {
             "field": {
-              "Measure": {
+              "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Fact_Sales"
+                    "Entity": "Dim_ActionGuide"
                   }
                 },
-                "Property": "Successful Sales Value"
+                "Property": "PriorityOrder"
               }
             },
-            "direction": "Descending"
+            "direction": "Ascending"
           }
         ],
         "isDefaultSort": true
@@ -116,7 +143,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#0284C7'"
+                      "Value": "'#0F766E'"
                     }
                   }
                 }
@@ -199,7 +226,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Revenue by Location Type'"
+                  "Value": "'Action Guide'"
                 }
               }
             },
@@ -251,7 +278,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Decision cue: compare demand concentration by location type'"
+                  "Value": "'Read priority cards as an execution queue, not just segment counts'"
                 }
               }
             },
@@ -260,7 +287,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#06B6D4'"
+                      "Value": "'#0F766E'"
                     }
                   }
                 }

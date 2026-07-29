@@ -5,7 +5,7 @@
     "x": 268,
     "y": 116,
     "width": 232,
-    "height": 98,
+    "height": 76,
     "tabOrder": 2
   },
   "visual": {
@@ -22,11 +22,11 @@
                       "Entity": "Fact_Sales"
                     }
                   },
-                  "Property": "Fix Machines"
+                  "Property": "Review Replace Machines"
                 }
               },
-              "queryRef": "Fact_Sales.Fix Machines",
-              "nativeQueryRef": "Fix Machines"
+              "queryRef": "Fact_Sales.Review Replace Machines",
+              "nativeQueryRef": "Review Replace Machines"
             }
           ]
         }
@@ -80,7 +80,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#EF4444'"
+                      "Value": "'#F59E0B'"
                     }
                   }
                 }
@@ -109,14 +109,14 @@
             "top": {
               "expr": {
                 "Literal": {
-                  "Value": "8D"
+                  "Value": "6D"
                 }
               }
             },
             "bottom": {
               "expr": {
                 "Literal": {
-                  "Value": "8D"
+                  "Value": "6D"
                 }
               }
             },
@@ -161,7 +161,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "20D"
+                  "Value": "18D"
                 }
               }
             },
@@ -209,7 +209,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Fix — P1'"
+                  "Value": "'P2 Review / Replace'"
                 }
               }
             },
