@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "p5_slicer_machinestatus",
   "position": {
-    "x": 1095,
+    "x": 920,
     "y": 16,
-    "z": 9104,
+    "z": 9103,
     "height": 84,
     "width": 165,
-    "tabOrder": 14
+    "tabOrder": 13
   },
   "visual": {
     "visualType": "slicer",

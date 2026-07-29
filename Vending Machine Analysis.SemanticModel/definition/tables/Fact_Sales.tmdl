@@ -267,6 +267,10 @@ table Fact_Sales
 		formatString: #,0
 		lineageTag: d0013059-9506-427d-9c96-fd6851f2e12c
 
+	measure 'Machines with Transactions' = DISTINCTCOUNT(Fact_Sales[MachineCode])
+		formatString: #,0
+		lineageTag: 91420eaf-84f6-4d19-b1e8-3dde5d5dff31
+
 	column TransactionId
 		dataType: int64
 		formatString: 0

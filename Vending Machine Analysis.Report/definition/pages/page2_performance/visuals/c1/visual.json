@@ -209,7 +209,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Active Machines'"
+                  "Value": "'Fleet ON Machines'"
                 }
               }
             },

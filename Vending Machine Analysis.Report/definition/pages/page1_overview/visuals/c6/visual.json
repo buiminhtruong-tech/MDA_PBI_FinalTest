@@ -22,11 +22,11 @@
                       "Entity": "Fact_Sales"
                     }
                   },
-                  "Property": "Active Machines Count"
+                  "Property": "Machines with Transactions"
                 }
               },
-              "queryRef": "Fact_Sales.Active Machines Count",
-              "nativeQueryRef": "Active Machines Count"
+              "queryRef": "Fact_Sales.Machines with Transactions",
+              "nativeQueryRef": "Machines with Transactions"
             }
           ]
         }
@@ -209,7 +209,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Active Machines'"
+                  "Value": "'Machines with Transactions'"
                 }
               }
             },

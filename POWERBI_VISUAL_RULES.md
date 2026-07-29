@@ -81,6 +81,7 @@ Vending Machine Analysis.Report/definition/pages/<pageFolder>/visuals/<visualNam
 
 - Moi page phai co title ro `SkillsHub Vietnam`.
 - Moi page can co slicer chung neu phu hop: `Year`, `District`, `Location Type`, `Product Category`, `Machine Status`.
+- Khong dung `Product Category` slicer tren `Page4_Replenishment` va `Page5_Matrix` cho den khi transfer/action metrics co ProductId line-level; filter nay co the tao ngu canh sai cho replenishment va machine-action.
 - Slicer chung tren cac page phai dung sync group rieng theo field, vi du `SkillsHubProductCategorySync` cho `Dim_Product.ProductCategory`; khong copy nham sync group cua slicer khac.
 - Theme hien tai la light theme:
   - page background `#F8FAFC`

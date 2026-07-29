@@ -15,6 +15,7 @@ Before creating or editing visuals in this repo:
 11. Write DAX measures with multiple `VAR` statements as multi-line TMDL expressions.
 12. Ensure every chart/table visual has a visible `visualContainerObjects.title` with non-empty text.
 13. Keep common slicers on their own matching sync groups; do not reuse another slicer's sync group.
-14. Run `node scripts/validate-pbir-visuals.js` after every visual edit.
+14. Do not use `Product Category` slicers on replenishment or machine-action pages until those metrics support ProductId line-level filtering.
+15. Run `node scripts/validate-pbir-visuals.js` after every visual edit.
 
 See `POWERBI_VISUAL_RULES.md` for the full project rules.

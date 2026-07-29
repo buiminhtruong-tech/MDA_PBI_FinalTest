@@ -35,7 +35,12 @@ const requiredSlicers = [
   { label: "Year", key: "Dim_Date.Year", syncGroup: "SkillsHubYearSync" },
   { label: "District", key: "Dim_Location.District", syncGroup: "SkillsHubDistrictSync" },
   { label: "Location Type", key: "Dim_Machine.LocationType", syncGroup: "SkillsHubLocationTypeSync" },
-  { label: "Product Category", key: "Dim_Product.ProductCategory", syncGroup: "SkillsHubProductCategorySync" },
+  {
+    label: "Product Category",
+    key: "Dim_Product.ProductCategory",
+    syncGroup: "SkillsHubProductCategorySync",
+    excludePages: new Set(["Page4_Replenishment", "Page5_Matrix"]),
+  },
   { label: "Machine Status", key: "Dim_Machine.MachineStatus", syncGroup: "SkillsHubMachineStatusSync" },
 ];
 
@@ -124,6 +129,9 @@ function parseModelFields() {
   for (const file of fs.readdirSync(tablesRoot).filter((name) => name.endsWith(".tmdl"))) {
     const fullPath = path.join(tablesRoot, file);
     const text = fs.readFileSync(fullPath, "utf8");
+    if (text.includes("â‚«")) {
+      errors.push(`${fullPath}: mojibake currency symbol found; use ₫ in formatString values`);
+    }
     const tableName = text.match(/^table\s+(.+)$/m)?.[1]?.trim().replace(/^'|'$/g, "");
     if (!tableName) continue;
 
@@ -277,7 +285,7 @@ function projectionFieldKey(projection) {
   return null;
 }
 
-function validateRequiredSlicers(visualFiles, pageFolder) {
+function validateRequiredSlicers(visualFiles, pageFolder, pageName) {
   const slicersByKey = new Map();
   for (const visualFile of visualFiles) {
     const visual = readJson(visualFile);
@@ -291,6 +299,12 @@ function validateRequiredSlicers(visualFiles, pageFolder) {
   }
 
   for (const slicer of requiredSlicers) {
+    if (slicer.excludePages?.has(pageName)) {
+      if (slicersByKey.has(slicer.key)) {
+        errors.push(`${pageFolder}: ${slicer.label} slicer should not be used on ${pageName}; data lineage does not support this filter context`);
+      }
+      continue;
+    }
     if (!slicersByKey.has(slicer.key)) {
       errors.push(`${pageFolder}: missing required slicer ${slicer.label} (${slicer.key})`);
       continue;
@@ -443,7 +457,7 @@ function validateProject() {
 
     const pageWidth = entry.page.width || 1280;
     const pageHeight = entry.page.height || 720;
-    validateRequiredSlicers(visualFiles, entry.folder);
+    validateRequiredSlicers(visualFiles, entry.folder, pageName);
     for (const visualFile of visualFiles) {
       validateVisual(visualFile, { width: pageWidth, height: pageHeight });
       const json = readJson(visualFile);
